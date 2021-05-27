@@ -42,16 +42,19 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
     @DisplayName("회원 가입 - 성공")
     @Test
     void signUp_success() throws Exception {
+        String nickname = "sejin123";
+        String password = "123456789";
         mockMvc.perform(post("/sign-up")
-                .param("nickname","sejin123")
+                .param("nickname",nickname)
                 .param("email","test123@email.com")
-                .param("password","123456789")
+                .param("password",password)
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
 
         assertTrue(accountRepository.existsByNickname("sejin123"));
-        //TODO 인코딩된 패스워드와 동일한지 확인하는 코드
+        //인코딩된 패스워드와 동일한지 확인
+        assertNotEquals(accountRepository.findByNickname(nickname).getPassword(), password);
     }
 
     @DisplayName("회원 가입 - 실패 - 닉네임이 이미 존재하는 경우")

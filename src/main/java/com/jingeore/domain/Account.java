@@ -21,6 +21,8 @@ public class Account {
 
     Boolean emailVerified = false;
 
+    String emailConfirmToken;
+
     String password;
 
     @Lob @Basic(fetch = FetchType.EAGER)
