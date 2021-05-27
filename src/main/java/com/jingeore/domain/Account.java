@@ -19,6 +19,8 @@ public class Account {
     @Column(unique = true)
     String email;
 
+    Boolean emailVerified = false;
+
     String password;
 
     @Lob @Basic(fetch = FetchType.EAGER)
