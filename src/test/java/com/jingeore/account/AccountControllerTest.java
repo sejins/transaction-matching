@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
@@ -96,4 +99,48 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
                 .andExpect(view().name("account/sign-up"))
                 .andExpect(unauthenticated());
     }
+
+    @DisplayName("회원가입 이메일 인증 - 성공")
+    @Test
+    void check_email_token_success() throws Exception {
+
+        Account newAccount = creatAccountForCheckEmailTokenTest();
+
+        mockMvc.perform(get("/check-email-token?token="+newAccount.getEmailConfirmToken()+"&email="+newAccount.getEmail()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("account/confirmed-email"))
+                .andExpect(model().attributeExists("nickname"));
+        //TODO 로그인 기능 구현되면 이메일 인증 후 authenticated 한 상태인지 확인 필요.
+
+        Account account = accountRepository.findByEmail(newAccount.getEmail());
+        assertTrue(account.getEmailVerified());
+        assertNotNull(account.getRegDate());
+    }
+
+    @DisplayName("회원가입 이메일 인증 - 실패")
+    @Test
+    void check_email_token_fail() throws Exception {
+
+        Account newAccount = creatAccountForCheckEmailTokenTest();
+
+        mockMvc.perform(get("/check-email-token?token="+newAccount.getEmailConfirmToken()+"&email=wrongEmail@email.com"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("account/confirmed-email"))
+                .andExpect(model().attributeExists("error"))
+                .andExpect(unauthenticated());
+
+        Account account = accountRepository.findByEmail(newAccount.getEmail());
+        assertFalse(account.getEmailVerified());
+        assertNull(account.getRegDate());
+    }
+
+    private Account creatAccountForCheckEmailTokenTest() {
+        Account account = new Account();
+        account.setNickname("test123");
+        account.setEmail("test123@naver.com");
+        account.setEmailConfirmToken(UUID.randomUUID().toString());
+        return accountRepository.save(account);
+    }
+
+
 }

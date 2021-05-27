@@ -34,15 +34,19 @@ public class AccountService {
         newAccount.setNickname(signUpForm.getNickname());
         newAccount.setEmail(signUpForm.getEmail());
         newAccount.setPassword(passwordEncoder.encode(signUpForm.getPassword())); // 비밀번호는 암호화해서 저장. -> bcrypt 해싱 알고리즘사용.
-        newAccount.setRegDate(LocalDateTime.now());
         newAccount.setEmailConfirmToken(UUID.randomUUID().toString());// 계정을 만들때 랜덤한 토큰값을 생성한다.
         return accountRepository.save(newAccount);
     }
 
     private void sendSignUpConfirmEmail(Account newAccount) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setText("/confirm-email-check-token?token="+newAccount.getEmailConfirmToken()+"&email="+newAccount.getEmail());
+        simpleMailMessage.setText("/check-email-token?token="+newAccount.getEmailConfirmToken()+"&email="+newAccount.getEmail());
         simpleMailMessage.setTo(newAccount.getEmail());
         javaMailSender.send(simpleMailMessage);
+    }
+
+    public void confirmAccount(Account account) {
+        account.setRegDate(LocalDateTime.now());
+        account.setEmailVerified(true);
     }
 }

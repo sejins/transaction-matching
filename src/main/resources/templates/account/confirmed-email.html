@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class=bg-light"">
+  <nav th:replace="fragments.html :: navbar"></nav>
+  <div class="container">
+    <div class="py-3 text-center">
+      <p class="lead">이메일 인증</p>
+    </div>
+    <div th:if="${error}" class="alert alert-danger text-center" role="alert">이메일 인증 링크가 정확하지 않습니다.</div>
+    <div th:if="${error==null}" class="text-center">
+      <h3><span th:text="${nickname}"></span>님의 이메일 인증이 완료 되었습니다.</h3>
+      <p class="text-info">회원가입시 사용한 닉네임과 패스워드로 로그인하여 서비스를 이용할 수 있습니다.</p>
+    </div>
+  </div>
+</body>
+</html>
