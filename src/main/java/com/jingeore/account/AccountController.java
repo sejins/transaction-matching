@@ -57,9 +57,8 @@ public class AccountController{
         model.addAttribute("nickname",account.getNickname());
         accountService.confirmAccount(account); //이메일 인증을 해야 등록 날짜가 지정되고, 이메일 인증이 완료된 계정이 된다.
 
-        //TODO 인증 후 자동으로 로그인하는 기능
+        accountService.login(account);
 
         return "account/confirmed-email";
-
     }
 }

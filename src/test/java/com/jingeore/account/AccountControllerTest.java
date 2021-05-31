@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -53,7 +54,8 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
                 .param("password",password)
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/"))
+                .andExpect(unauthenticated());
 
         assertTrue(accountRepository.existsByNickname("sejin123"));
         //인코딩된 패스워드와 동일한지 확인
@@ -109,7 +111,8 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
         mockMvc.perform(get("/check-email-token?token="+newAccount.getEmailConfirmToken()+"&email="+newAccount.getEmail()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("account/confirmed-email"))
-                .andExpect(model().attributeExists("nickname"));
+                .andExpect(model().attributeExists("nickname"))
+                .andExpect(authenticated());
         //TODO 로그인 기능 구현되면 이메일 인증 후 authenticated 한 상태인지 확인 필요.
 
         Account account = accountRepository.findByEmail(newAccount.getEmail());
