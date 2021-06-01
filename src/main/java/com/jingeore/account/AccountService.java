@@ -55,11 +55,11 @@ public class AccountService {
     }
 
     public void login(Account account) {
-//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-//                account.getNickname(), // principal
-//                account.getPassword(),
-//                List.of(new SimpleGrantedAuthority("ROLE_USER")));
-//        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                account.getNickname(), // principal
+                account.getPassword(),
+                List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         // TODO 인증이 되었는지 테스트 코드에서 확인하기
         /*
         * 정석적인 방법 -> 하지만 이것은 평문 패스워드에 대해서 인증을 하는 방식이다. DB에 저장된 암호화된 패스워드로 인증을 가능하게 하려면 위의 방법을 사용해야한다.
