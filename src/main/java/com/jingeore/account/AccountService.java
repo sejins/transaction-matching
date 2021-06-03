@@ -28,12 +28,14 @@ public class AccountService{
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
 
-    public void createNewAccount(SignUpForm signUpForm) {
+    public Account createNewAccount(SignUpForm signUpForm) {
 
         Account newAccount = saveNewAccount(signUpForm);
 
         //TODO 인증 메일 전송하는 기능 -> 현재는 콘솔에 로그 출력!
         sendSignUpConfirmEmail(newAccount);
+
+        return newAccount;
     }
 
     private Account saveNewAccount(SignUpForm signUpForm) {
@@ -45,7 +47,7 @@ public class AccountService{
         return accountRepository.save(newAccount);
     }
 
-    private void sendSignUpConfirmEmail(Account newAccount) {
+    public void sendSignUpConfirmEmail(Account newAccount) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setText("/check-email-token?token="+newAccount.getEmailConfirmToken()+"&email="+newAccount.getEmail());
         simpleMailMessage.setTo(newAccount.getEmail());
@@ -79,5 +81,14 @@ public class AccountService{
 //        Authentication authentication = authenticationManager.authenticate(token);
 //        SecurityContext context = SecurityContextHolder.getContext();
 //        context.setAuthentication(authentication);
+    }
+
+    public boolean canSendSignUpConfirmEmail(Account account) {
+        return LocalDateTime.now().isAfter(account.getEmailSendTime().plusMinutes(5));
+    }
+
+    public void resendSignUpConfirmEmail(Account account) {
+        sendSignUpConfirmEmail(account);
+        account.setEmailSendTime(LocalDateTime.now());
     }
 }

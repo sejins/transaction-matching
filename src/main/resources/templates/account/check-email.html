@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+  <nav th:replace="fragments.html :: navbar"></nav>
+  <div class="container">
+    <div class="py-3 text-center">
+      <p class="lead">인증 메일 전송</p>
+    </div>
+    <div class="text-center">
+      <h3>회원가입을 완료하기 위해서 이메일 인증을 진행해주세요.</h3>
+      <p>회원가입시 사용한 이메일 주소로 인증 메일을 전송했습니다. 메일을 확인해주세요.</p>
+    </div>
+    <div class="py-5 text-center">
+      <span class="text-info pe-5">인증 메일을 전송받지 못하셨나요?</span>
+      <form th:action="@{/resend-email}" method="post" th:if="${error==null}">
+        <input type="hidden" name="email" id="email" th:value="${email}">
+        <button class="btn btn-info">인증메일 재전송</button>
+      </form>
+      <div th:if="${error}" class="alert alert-danger text-center" role="alert">인증 메일 재전송은 5분마다 가능합니다.</div>
+    </div>
+  </div>
+</body>
+</html>

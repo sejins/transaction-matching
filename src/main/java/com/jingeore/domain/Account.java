@@ -23,6 +23,8 @@ public class Account {
 
     String emailConfirmToken;
 
+    LocalDateTime emailSendTime = LocalDateTime.now().minusHours(1);
+
     String password;
 
     @Lob @Basic(fetch = FetchType.EAGER)

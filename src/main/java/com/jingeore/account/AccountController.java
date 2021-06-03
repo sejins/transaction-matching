@@ -4,6 +4,7 @@ import com.jingeore.account.form.SignUpForm;
 import com.jingeore.account.validator.SignUpFormValidator;
 import com.jingeore.domain.Account;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class AccountController{
 
     private final SignUpFormValidator signUpFormValidator;
@@ -36,10 +38,10 @@ public class AccountController{
         if(errors.hasErrors()){
             return "account/sign-up";
         }
-        accountService.createNewAccount(signUpForm);
-        attributes.addFlashAttribute("confirmPlease","confirmPlease"); //리다이랙트하고 인증 메일을 확인하라는 flash 알림.
-        return "redirect:/";
-        // POST -> REDIRECT -> GET 패턴
+        Account newAccount = accountService.createNewAccount(signUpForm);
+        model.addAttribute("email",newAccount.getEmail());
+        return "account/check-email";
+
     }
 
     @GetMapping("/check-email-token")
@@ -53,14 +55,26 @@ public class AccountController{
             model.addAttribute("error","wrong token");
             return "account/confirmed-email";
         }
-
         model.addAttribute("nickname",account.getNickname());
         accountService.confirmAccount(account); //이메일 인증을 해야 등록 날짜가 지정되고, 이메일 인증이 완료된 계정이 된다.
-
         accountService.login(account);
-
         model.addAttribute(account);
-
         return "account/confirmed-email";
     }
+
+    @PostMapping("/resend-email")
+    public String resendEmail(String email, Model model){
+        //메일을 재전송
+        Account account = accountRepository.findByEmail(email);
+        if(accountService.canSendSignUpConfirmEmail(account)){
+            accountService.resendSignUpConfirmEmail(account);
+        }
+        else{
+            model.addAttribute("error","can't send email");
+        }
+        model.addAttribute("email",email);
+        return "account/check-email";
+    }
+
+
 }
