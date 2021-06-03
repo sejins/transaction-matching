@@ -22,7 +22,7 @@ import java.util.UUID;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class AccountService{
+public class AccountService implements UserDetailsService{
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
@@ -61,7 +61,7 @@ public class AccountService{
 
     public void login(Account account) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                account, // principal
+                new UserAccount(account), // principal
                 account.getPassword(),
                 List.of(new SimpleGrantedAuthority("ROLE_USER")));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -90,5 +90,17 @@ public class AccountService{
     public void resendSignUpConfirmEmail(Account account) {
         sendSignUpConfirmEmail(account);
         account.setEmailSendTime(LocalDateTime.now());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String emailOrNickname) throws UsernameNotFoundException {
+        Account account = accountRepository.findByEmail(emailOrNickname);
+        if(account == null){
+            account = accountRepository.findByNickname(emailOrNickname);
+        }
+        if(account == null){
+            throw new UsernameNotFoundException(emailOrNickname);
+        }
+        return new UserAccount(account);
     }
 }

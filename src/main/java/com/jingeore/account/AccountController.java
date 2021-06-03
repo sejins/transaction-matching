@@ -44,6 +44,20 @@ public class AccountController{
 
     }
 
+    @PostMapping("/resend-email")
+    public String resendEmail(String email, Model model){
+        //메일을 재전송
+        Account account = accountRepository.findByEmail(email);
+        if(accountService.canSendSignUpConfirmEmail(account)){
+            accountService.resendSignUpConfirmEmail(account);
+        }
+        else{
+            model.addAttribute("error","can't send email");
+        }
+        model.addAttribute("email",email);
+        return "account/check-email";
+    }
+
     @GetMapping("/check-email-token")
     public String checkEmailToken(Model model, String email, String token){
         Account account = accountRepository.findByEmail(email);
@@ -62,19 +76,7 @@ public class AccountController{
         return "account/confirmed-email";
     }
 
-    @PostMapping("/resend-email")
-    public String resendEmail(String email, Model model){
-        //메일을 재전송
-        Account account = accountRepository.findByEmail(email);
-        if(accountService.canSendSignUpConfirmEmail(account)){
-            accountService.resendSignUpConfirmEmail(account);
-        }
-        else{
-            model.addAttribute("error","can't send email");
-        }
-        model.addAttribute("email",email);
-        return "account/check-email";
-    }
+
 
 
 }
