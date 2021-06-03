@@ -59,6 +59,8 @@ public class AccountController{
 
         accountService.login(account);
 
+        model.addAttribute(account);
+
         return "account/confirmed-email";
     }
 }
