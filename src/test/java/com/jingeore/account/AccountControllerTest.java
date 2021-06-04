@@ -1,5 +1,6 @@
 package com.jingeore.account;
 
+import com.jingeore.account.form.SignUpForm;
 import com.jingeore.domain.Account;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
@@ -27,6 +28,7 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
 
     @Autowired MockMvc mockMvc;
     @Autowired AccountRepository accountRepository;
+    @Autowired AccountService accountService;
 
     @AfterEach
     void afterEach(){
@@ -145,5 +147,28 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
         return accountRepository.save(account);
     }
 
+    @DisplayName("인증 메일 재전송")
+    @Test
+    void resendConfirmEmail() throws Exception {
+        SignUpForm signUpForm = new SignUpForm();
+        signUpForm.setNickname("sejin");
+        signUpForm.setEmail("sejin123@test.com");
+        signUpForm.setPassword("123123123");
+        accountService.createNewAccount(signUpForm);
+
+        mockMvc.perform(post("/resend-email")
+                .param("email","sejin123@test.com")
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("email"))
+                .andExpect(model().attributeDoesNotExist("error"));
+
+        mockMvc.perform(post("/resend-email") //5분이 지나기전에 인증 메일을 재전송하는 경우. 재전송할 수 없음!
+                .param("email","sejin123@test.com")
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("email"))
+                .andExpect(model().attributeExists("error"));
+    }
 
 }
