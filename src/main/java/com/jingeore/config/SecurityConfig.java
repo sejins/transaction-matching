@@ -1,13 +1,24 @@
 package com.jingeore.config;
 
+import com.jingeore.account.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+    private final AccountService accountService;
+    private final DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -17,6 +28,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.formLogin().loginPage("/login").permitAll(); // 커스텀 로그인 페이지를 사용하는 설정
         http.logout().logoutSuccessUrl("/");
+
+        http.rememberMe().userDetailsService(accountService).tokenRepository(tokenRepository()); // remember-me 설정
+    }
+
+    @Bean
+    public PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
     }
 
     public void configure(WebSecurity webSecurity){ // 정적 파일에 대해서는 인증을 요구하지 않게 설정.

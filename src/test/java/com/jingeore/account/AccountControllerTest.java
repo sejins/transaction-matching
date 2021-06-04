@@ -170,5 +170,4 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
                 .andExpect(model().attributeExists("email"))
                 .andExpect(model().attributeExists("error"));
     }
-
 }
