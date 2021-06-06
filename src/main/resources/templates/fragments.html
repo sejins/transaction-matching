@@ -7,6 +7,7 @@
   <title>Jingeore</title>
   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <script src="/node_modules/jdenticon/dist/jdenticon.min.js"></script>
   <style>
     .container{
       max-width: 100%;
@@ -39,11 +40,11 @@
       </li>
       <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
         <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          프로필
+          <svg th:if="${#strings.isEmpty(account?.profileImage)}" th:data-jdenticon-value="${account.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><p class="text-center" th:text="${account.getNickname()}">닉네임</p></li>
-          <li><a class="dropdown-item text-center" href="#">프로필 메뉴1</a></li>
+          <li><a class="dropdown-item text-center" th:href="@{'/profile/' + ${account.getNickname()}}">프로필</a></li>
           <li><a class="dropdown-item text-center" href="#">프로필 메뉴2</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>

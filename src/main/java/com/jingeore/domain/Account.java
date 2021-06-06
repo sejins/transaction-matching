@@ -32,9 +32,9 @@ public class Account {
 
     LocalDateTime regDate;
 
-    Integer sellingMannerScore;
+    Double sellingMannerScore = 5.0;
 
-    Integer buyingMannerScore;
+    Double buyingMannerScore = 5.0;
 
     Boolean isBanned = false;
 

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,7 +33,7 @@ public class AccountController{
     }
 
     @PostMapping("/sign-up")
-    public String signUp(Model model, @Valid @ModelAttribute SignUpForm signUpForm, Errors errors, RedirectAttributes attributes){
+    public String signUp(Model model, @Valid @ModelAttribute SignUpForm signUpForm, Errors errors){
 
         signUpFormValidator.validate(signUpForm,errors); //signUpForm에 대해서 검증
         if(errors.hasErrors()){
@@ -76,7 +77,16 @@ public class AccountController{
         return "account/confirmed-email";
     }
 
+    @GetMapping("/profile/{nickname}")
+    public String profilePage(@CurrentUser Account account, Model model, @PathVariable String nickname){
+        Account profileAccount = accountRepository.findByNickname(nickname);
+        if(profileAccount == null){
+            throw new IllegalArgumentException(nickname + "에 해당하는 사용자가 없습니다.");
+        }
 
-
-
+        model.addAttribute(account);
+        model.addAttribute("profileAccount",profileAccount);
+        model.addAttribute("itsMyProfile",nickname.equals(account.getNickname()));
+        return "account/profile";
+    }
 }
