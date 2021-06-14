@@ -35,7 +35,7 @@ public class AccountController{
     @PostMapping("/sign-up")
     public String signUp(Model model, @Valid @ModelAttribute SignUpForm signUpForm, Errors errors){
 
-        signUpFormValidator.validate(signUpForm,errors); //signUpForm에 대해서 검증
+        signUpFormValidator.validate(signUpForm,errors); //signUpForm에 대해서 검증 -> InitBinder를 사용해서 검증을수행할 수도 있다.
         if(errors.hasErrors()){
             return "account/sign-up";
         }
@@ -71,8 +71,8 @@ public class AccountController{
             return "account/confirmed-email";
         }
         model.addAttribute("nickname",account.getNickname());
-        accountService.confirmAccount(account); //이메일 인증을 해야 등록 날짜가 지정되고, 이메일 인증이 완료된 계정이 된다.
-        accountService.login(account);
+        accountService.confirmAccount(account);
+        accountService.login(account); //이메일 인증이 완료된 계정은 로그인을 시켜준다.
         model.addAttribute(account);
         return "account/confirmed-email";
     }

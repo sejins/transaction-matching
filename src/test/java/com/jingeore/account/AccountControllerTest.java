@@ -55,8 +55,8 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
                 .param("email","test123@email.com")
                 .param("password",password)
                 .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("account/check-email"))
                 .andExpect(unauthenticated());
 
         assertTrue(accountRepository.existsByNickname("sejin123"));
@@ -104,14 +104,37 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
                 .andExpect(unauthenticated());
     }
 
+    @DisplayName("회원가입 이메일 인증 - 실패")
+    @Test
+    void check_email_token_fail() throws Exception {
+
+        Account newAccount = creatAccountForCheckEmailTokenTest();
+
+        mockMvc.perform(get("/check-email-token")
+                .param("token","sdfgwertwergdsfgsd")
+                .param("email","testtest@naver.com"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("account/confirmed-email"))
+                .andExpect(model().attributeExists("error"))
+                .andExpect(unauthenticated());
+
+        Account account = accountRepository.findByEmail(newAccount.getEmail());
+        assertFalse(account.getEmailVerified());
+        assertNull(account.getRegDate());
+
+    }
+
     @DisplayName("회원가입 이메일 인증 - 성공")
     @Test
     void check_email_token_success() throws Exception {
 
         Account newAccount = creatAccountForCheckEmailTokenTest();
 
-        mockMvc.perform(get("/check-email-token?token="+newAccount.getEmailConfirmToken()+"&email="+newAccount.getEmail()))
+        mockMvc.perform(get("/check-email-token")
+                .param("token",newAccount.getEmailConfirmToken())
+                .param("email",newAccount.getEmail()))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeDoesNotExist("error"))
                 .andExpect(view().name("account/confirmed-email"))
                 .andExpect(model().attributeExists("nickname"))
                 .andExpect(authenticated());
@@ -122,28 +145,13 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
         assertNotNull(account.getRegDate());
     }
 
-    @DisplayName("회원가입 이메일 인증 - 실패")
-    @Test
-    void check_email_token_fail() throws Exception {
-
-        Account newAccount = creatAccountForCheckEmailTokenTest();
-
-        mockMvc.perform(get("/check-email-token?token="+newAccount.getEmailConfirmToken()+"&email=wrongEmail@email.com"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("account/confirmed-email"))
-                .andExpect(model().attributeExists("error"))
-                .andExpect(unauthenticated());
-
-        Account account = accountRepository.findByEmail(newAccount.getEmail());
-        assertFalse(account.getEmailVerified());
-        assertNull(account.getRegDate());
-    }
 
     private Account creatAccountForCheckEmailTokenTest() {
         Account account = new Account();
         account.setNickname("test123");
         account.setEmail("test123@naver.com");
         account.setEmailConfirmToken(UUID.randomUUID().toString());
+        account.setPassword("123123123");
         return accountRepository.save(account);
     }
 
@@ -170,4 +178,11 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
                 .andExpect(model().attributeExists("email"))
                 .andExpect(model().attributeExists("error"));
     }
+
+//    @DisplayName("프로필 페이지 조회 - 나의 프로필 페이지")
+//    @Test
+//    void profile_mine(){
+//
+//        mockMvc.perform(get())
+//    }
 }

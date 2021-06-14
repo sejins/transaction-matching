@@ -58,6 +58,13 @@
   </div>
 </nav>
 
+<!-- 프로필 수정 좌측 메뉴바 -->
+<div th:fragment="settings-menu (currentMenu)" class="list-group">
+  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'}? active" th:href="@{/settings/nickname}">닉네임 수정</a>
+  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'}? active" th:href="@{/settings/password}">패스워드 수정</a>
+  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profileImage'}? active" th:href="@{/settings/profileImage}">프로필 이미지 수정</a>
+</div>
+
 <!-- 입력값 검증 스크립트 -->
 <script th:fragment="validation" type="application/javascript">
   (function () {
