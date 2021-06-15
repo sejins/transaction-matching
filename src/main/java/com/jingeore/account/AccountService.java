@@ -1,5 +1,6 @@
 package com.jingeore.account;
 
+import com.jingeore.account.form.NicknameForm;
 import com.jingeore.account.form.SignUpForm;
 import com.jingeore.domain.Account;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Transactional
@@ -102,5 +104,11 @@ public class AccountService implements UserDetailsService{
             throw new UsernameNotFoundException(emailOrNickname);
         }
         return new UserAccount(account);
+    }
+
+    public void updateNickname(Account account, NicknameForm nicknameForm) {
+        account.setNickname(nicknameForm.getNickname()); // 여기서 세션 데이터에 대해서 수정을 해준다.
+        accountRepository.save(account);
+        //login(account); // 로그인을 새로 해주는 것이 의미상으로 또는 기능상으로 필요할 것인가 아닌가.
     }
 }

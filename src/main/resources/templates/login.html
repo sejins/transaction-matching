@@ -7,6 +7,10 @@
     <div class="py-3 text-center">
       <p class="lead">Jingeore
       <h2>로그인</h2>
+      <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        <p> 닉네임/이메일 또는 패스워드가 일치하지 않습니다.</p>
+        <p>확인 후 다시 입력하거나, <a th:href="@{/find-password}">패스워드 찾기</a>를 이용하세요.</p>
+      </div>
       <div class="row justify-content-center">
         <form class="needs-validation col-sm-6" th:action="@{/login}" method="post" novalidate>
           <div class="form-group">

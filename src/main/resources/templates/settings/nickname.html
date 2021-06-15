@@ -9,6 +9,7 @@
                 <div th:replace="fragments.html :: settings-menu (currentMenu='profile')"></div>
             </div>
             <div class="col-8">
+                <div th:replace="fragments.html :: redirect-message"></div>
                 <div class="row">
                     <h2 class="col-9" th:text="${account.getNickname()}">닉네임</h2>
                 </div>
@@ -28,5 +29,6 @@
             </div>
         </div>
     </div>
+    <script th:replace="fragments.html :: validation"></script>
 </body>
 </html>
