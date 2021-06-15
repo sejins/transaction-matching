@@ -31,7 +31,7 @@ public class AccountSettingsController {
 
         NicknameForm nicknameForm = new NicknameForm();
         model.addAttribute(account);
-        model.addAttribute(nicknameForm);
+        model.addAttribute("nicknameForm", nicknameForm);
 
         return "settings/nickname";
     }

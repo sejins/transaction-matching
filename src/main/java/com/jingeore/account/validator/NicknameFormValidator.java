@@ -26,7 +26,7 @@ public class NicknameFormValidator implements Validator{
         NicknameForm nicknameForm = (NicknameForm)object;
         Account byNickname = accountRepository.findByNickname(nicknameForm.getNickname());
         if(byNickname!=null){
-            errors.rejectValue("nickname","invalid.nickname","이미 사용중인 닉네임입니다.");
+            errors.rejectValue("nickname","wrong.value","이미 사용중인 닉네임입니다.");
         }
     }
 
