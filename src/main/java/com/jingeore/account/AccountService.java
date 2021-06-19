@@ -41,7 +41,7 @@ public class AccountService implements UserDetailsService{
         return newAccount;
     }
 
-    private Account saveNewAccount(SignUpForm signUpForm) {
+    public Account saveNewAccount(SignUpForm signUpForm) {
         Account newAccount = new Account();
         newAccount.setNickname(signUpForm.getNickname());
         newAccount.setEmail(signUpForm.getEmail());
@@ -105,7 +105,7 @@ public class AccountService implements UserDetailsService{
             throw new UsernameNotFoundException(emailOrNickname);
         }
         return new UserAccount(account);
-    }
+    } // DB에서 사용자의 정보를 조회해서 일치하는 UserDetails를 리턴하는 역할
 
     public void updateNickname(Account account, NicknameForm nicknameForm) {
         account.setNickname(nicknameForm.getNickname()); // 여기서 세션 데이터에 대해서 수정을 해준다.

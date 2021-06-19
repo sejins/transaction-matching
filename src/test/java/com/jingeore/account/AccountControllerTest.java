@@ -1,5 +1,6 @@
 package com.jingeore.account;
 
+import com.jingeore.WithMockCustomUser;
 import com.jingeore.account.form.SignUpForm;
 import com.jingeore.domain.Account;
 import org.aspectj.lang.annotation.Before;
@@ -179,10 +180,15 @@ class AccountControllerTest { // 테스트시에도 DB에 값을 반영하기 �
                 .andExpect(model().attributeExists("error"));
     }
 
-//    @DisplayName("프로필 페이지 조회 - 나의 프로필 페이지")
-//    @Test
-//    void profile_mine(){
-//
-//        mockMvc.perform(get())
-//    }
+    @DisplayName("프로필 페이지 조회")
+    @Test
+    @WithMockCustomUser("sejin")
+    void profile_mine() throws Exception {
+
+        mockMvc.perform(get("/profile/sejin"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("profileAccount"))
+                .andExpect(model().attributeExists("itsMyProfile"));
+    }
 }
