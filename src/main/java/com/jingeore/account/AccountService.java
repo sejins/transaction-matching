@@ -1,6 +1,7 @@
 package com.jingeore.account;
 
 import com.jingeore.account.form.NicknameForm;
+import com.jingeore.account.form.PasswordForm;
 import com.jingeore.account.form.SignUpForm;
 import com.jingeore.domain.Account;
 import lombok.RequiredArgsConstructor;
@@ -110,5 +111,15 @@ public class AccountService implements UserDetailsService{
         account.setNickname(nicknameForm.getNickname()); // 여기서 세션 데이터에 대해서 수정을 해준다.
         accountRepository.save(account);
         //login(account); // 로그인을 새로 해주는 것이 의미상으로 또는 기능상으로 필요할 것인가 아닌가.
+
+    }
+
+    public void updatePassword(Account account, PasswordForm passwordForm) {
+
+        // 세션의 account 데이터도 수정을 해주고, DB의 데이터도 수정을 해서 반영해준다.
+        account.setPassword(passwordEncoder.encode(passwordForm.getPassword()));
+        accountRepository.save(account); // DB의 데이터에도 merge
+
+        //login(account);
     }
 }
