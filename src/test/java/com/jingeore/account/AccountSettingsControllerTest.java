@@ -1,8 +1,10 @@
 package com.jingeore.account;
 
 import com.jingeore.WithMockCustomUser;
+import com.jingeore.account.form.SignUpForm;
 import com.jingeore.domain.Account;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,13 @@ class AccountSettingsControllerTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired AccountRepository accountRepository;
+    @Autowired AccountService accountService;
 
     @AfterEach
     void afterEach(){
         accountRepository.deleteAll();
     }
+
 
     @DisplayName("닉네임 변경 - 성공")
     @Test

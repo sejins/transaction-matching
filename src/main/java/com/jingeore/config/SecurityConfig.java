@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
     public void configure(WebSecurity webSecurity){ // 정적 파일에 대해서는 인증을 요구하지 않게 설정.
-        webSecurity.ignoring().mvcMatchers("/node_modules/**") // node_modules 밑의 프론트앤드 라이브러리에 대한 요청.
+        webSecurity.ignoring().mvcMatchers("/node_modules/**","/error") // node_modules 밑의 프론트앤드 라이브러리에 대한 요청.
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 

@@ -45,7 +45,7 @@
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><p class="text-center" th:text="${account.getNickname()}">닉네임</p></li>
           <li><a class="dropdown-item text-center" th:href="@{'/profile/' + ${account.getNickname()}}">프로필</a></li>
-          <li><a class="dropdown-item text-center" href="#">프로필 메뉴2</a></li>
+          <li><a class="dropdown-item text-center" th:href="@{/settings/nickname}">프로필 수정</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>
             <form  class="form-inline my-2 my-lg-0" action="#"  th:action="@{/logout}" method="post">

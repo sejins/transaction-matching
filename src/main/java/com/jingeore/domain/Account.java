@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
@@ -11,32 +13,35 @@ import java.time.LocalDateTime;
 public class Account {
 
     @Id @GeneratedValue
-    Long id;
+    private Long id;
 
     @Column(unique = true)
-    String nickname;
+    private String nickname;
 
     @Column(unique = true)
-    String email;
+    private String email;
 
-    Boolean emailVerified = false;
+    private Boolean emailVerified = false;
 
-    String emailConfirmToken;
+    private String emailConfirmToken;
 
-    LocalDateTime emailSendTime = LocalDateTime.now().minusHours(1);
+    private LocalDateTime emailSendTime = LocalDateTime.now().minusHours(1);
 
-    String password;
+    private String password;
 
     @Lob @Basic(fetch = FetchType.EAGER)
-    String profileImage;
+    private String profileImage;
 
-    LocalDateTime regDate;
+    private LocalDateTime regDate;
 
-    Double sellingMannerScore = 5.0;
+    private Double sellingMannerScore = 5.0;
 
-    Double buyingMannerScore = 5.0;
+    private Double buyingMannerScore = 5.0;
 
-    Boolean isBanned = false;
+    private Boolean isBanned = false;
+
+    @ManyToMany
+    private Set<Zone> zones = new HashSet<>(); // 지역 도메인과 다대다 관계
 
     // TODO 알림 기능 개발할 때 필요에 따라서 필드를 생성하기
 }
