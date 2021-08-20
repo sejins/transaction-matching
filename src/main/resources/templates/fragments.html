@@ -6,11 +6,19 @@
   <meta charset="UTF-8">
   <title>Jingeore</title>
   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/node_modules/@yaireo/tagify/dist/tagify.css"/>
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   <script src="/node_modules/jdenticon/dist/jdenticon.min.js"></script>
   <style>
     .container{
       max-width: 100%;
+    }
+
+    .tagify-outside{
+      border: 0;
+      padding: 0;
+      margin: 0;
     }
   </style>
 </head>
@@ -62,6 +70,7 @@
 <div th:fragment="settings-menu (currentMenu)" class="list-group">
   <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'}? active" th:href="@{/settings/nickname}">닉네임 수정</a>
   <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'}? active" th:href="@{/settings/password}">패스워드 수정</a>
+  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'zones'}? active" th:href="@{/settings/zones}">지역정보 수정</a>
   <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profileImage'}? active" th:href="@{/settings/profileImage}">프로필 이미지 수정</a>
 </div>
 
@@ -91,5 +100,66 @@
     }, false)
   }())
 </script>
+
+<!-- Ajax 요청시에 csrf 토큰을 설정하는 스크립트 -->
+<script type="application/javascript" th:inline="javascript" th:fragment="ajax-csrf-header">
+  $(function() {
+    var csrfToken = /*[[${_csrf.token}]]*/ null;
+    var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+    $(document).ajaxSend(function (e, xhr, options) {
+      xhr.setRequestHeader(csrfHeader, csrfToken);
+    });
+  });
+</script>
+
+<!-- 지역 정보 수정 -> tagify 라이브러리 -->
+<div th:fragment="update-zones (baseUrl)">
+  <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
+  <script type="application/javascript">
+    $(function () {
+      function tagRequest(url, zoneName) {
+        $.ajax({
+          dataType: "json",
+          autocomplete: {
+            enabled: true,
+            rightKey: true,
+          },
+          contentType: "application/json; charset=utf-8",
+          method: "POST",
+          url: "[(${baseUrl})]" + url,
+          data: JSON.stringify({'zoneName': zoneName})
+        }).done(function (data, status) {
+          console.log("${data} and status is ${status}");
+        });
+      }
+
+      function onAdd(e) {
+        tagRequest("/add", e.detail.data.value);
+      }
+
+      function onRemove(e) {
+        tagRequest("/remove", e.detail.data.value);
+      }
+
+      var tagInput = document.querySelector("#zones");
+
+      var tagify = new Tagify(tagInput, {
+        enforceWhitelist: true,
+        whitelist: JSON.parse(document.querySelector("#whitelist").textContent),
+        dropdown : {
+          enabled: 1, // suggest tags after a single character input
+        } // map tags
+      });
+
+      tagify.on("add", onAdd);
+      tagify.on("remove", onRemove);
+
+      // add a class to Tagify's input element
+      tagify.DOM.input.classList.add('form-control');
+      // re-place Tagify's input element outside of the  element (tagify.DOM.scope), just before it
+      tagify.DOM.scope.parentNode.insertBefore(tagify.DOM.input, tagify.DOM.scope);
+    });
+  </script>
+</div>
 
 </html>

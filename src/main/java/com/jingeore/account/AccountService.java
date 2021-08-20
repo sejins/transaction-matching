@@ -4,6 +4,7 @@ import com.jingeore.account.form.NicknameForm;
 import com.jingeore.account.form.PasswordForm;
 import com.jingeore.account.form.SignUpForm;
 import com.jingeore.domain.Account;
+import com.jingeore.domain.Zone;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Transactional
@@ -121,5 +123,20 @@ public class AccountService implements UserDetailsService{
         accountRepository.save(account); // DB의 데이터에도 merge
 
         //login(account);
+    }
+
+    public Set<Zone> getZones(Account account) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        return byId.orElseThrow().getZones();
+    }
+
+    public void addZone(Account account, Zone zone) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getZones().add(zone));
+    }
+
+    public void removeZone(Account account, Zone zone) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getZones().remove(zone));
     }
 }
