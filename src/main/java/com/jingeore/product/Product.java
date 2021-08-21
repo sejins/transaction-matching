@@ -31,4 +31,9 @@ public class Product {
 
     @ManyToOne
     private Account seller; // 판매자와는 다대일 관계 (양방향 관계)
+
+
+    public String getPriceByWon(){
+        return this.offerPrice + "원";
+    }
 }

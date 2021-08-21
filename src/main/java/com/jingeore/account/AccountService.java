@@ -142,6 +142,7 @@ public class AccountService implements UserDetailsService{
 
     public void addProduct(Account account, Product newProduct) {
         Optional<Account> byId = accountRepository.findById(account.getId());
+        account.getSellingProducts().add(newProduct); // 세션 정보에도 변경사항을 반영
         byId.ifPresent(a -> a.getSellingProducts().add(newProduct));
     }
 }

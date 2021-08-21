@@ -4,6 +4,7 @@ import com.jingeore.product.Product;
 import com.jingeore.product.ProductController;
 import com.jingeore.zone.Zone;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @NoArgsConstructor @AllArgsConstructor
+@Slf4j
 public class Account {
 
     @Id @GeneratedValue
@@ -46,8 +48,13 @@ public class Account {
     @ManyToMany
     private Set<Zone> zones = new HashSet<>(); // 지역 도메인과 다대다 관계
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
     private Set<Product> sellingProducts = new HashSet<>(); // 판매중인 상품과는 일대다 관계 (양방향 관계)
 
     // TODO 알림 기능 개발할 때 필요에 따라서 필드를 생성하기
+
+    public boolean isNotMyProduct(Product product){
+        log.info(this.sellingProducts.contains(product)+"");
+        return !this.sellingProducts.contains(product);
+    }
 }
