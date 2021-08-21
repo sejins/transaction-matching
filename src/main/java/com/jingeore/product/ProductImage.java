@@ -14,5 +14,4 @@ public class ProductImage {
 
     @Lob @Basic(fetch = FetchType.EAGER)
     private String imagePath;
-
 }

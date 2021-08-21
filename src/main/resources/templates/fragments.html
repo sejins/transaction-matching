@@ -7,6 +7,7 @@
   <title>Jingeore</title>
   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="/node_modules/@yaireo/tagify/dist/tagify.css"/>
+  <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css"/>
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   <script src="/node_modules/jdenticon/dist/jdenticon.min.js"></script>
@@ -24,7 +25,7 @@
 </head>
 
 <!-- 네비게이션 바 -->
-<nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark bg-primary">
+<!-- <nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark bg-primary">
   <a class="navbar-brand" th:href="@{/}">Logo</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -45,6 +46,56 @@
       </li>
       <li class="nav-item px-1" sec:authorize="!isAuthenticated()">
         <a class="nav-link active" th:href="@{/sign-up}">Sign up</a>
+      </li>
+      <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <svg th:if="${#strings.isEmpty(account?.profileImage)}" th:data-jdenticon-value="${account.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><p class="text-center" th:text="${account.getNickname()}">닉네임</p></li>
+          <li><a class="dropdown-item text-center" th:href="@{'/profile/' + ${account.getNickname()}}">프로필</a></li>
+          <li><a class="dropdown-item text-center" th:href="@{/settings/nickname}">프로필 수정</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <form  class="form-inline my-2 my-lg-0" action="#"  th:action="@{/logout}" method="post">
+              <button class="dropdown-item text-center" type="submit">로그아웃</button>
+            </form>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+ -->
+<nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <a class="navbar-brand" href="/" th:href="@{/}">
+    <!-- <img src="/images/angFlower.png" width="30" height="30"> -->
+    <a class="navbar-brand" th:href="@{/}">Logo</a>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <form th:action="@{/search/study}" class="form-inline" method="get">
+          <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="스터디 찾기" aria-label="Search" />
+        </form>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav justify-content-end">
+      <li class="nav-item" sec:authorize="!isAuthenticated()">
+        <a class="nav-link" href="#" th:href="@{/login}">로그인</a>
+      </li>
+      <li class="nav-item" sec:authorize="!isAuthenticated()">
+        <a class="nav-link" href="#" th:href="@{/sign-up}">가입</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-link btn btn-outline-primary"   href="#" th:href="@{/new-product}">
+          <i class="fa fa-plus"></i>  판매 상품 등록
+        </a>
       </li>
       <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
         <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
