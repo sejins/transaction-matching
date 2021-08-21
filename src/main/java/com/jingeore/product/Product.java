@@ -1,5 +1,6 @@
 package com.jingeore.product;
 
+import com.jingeore.account.Account;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,4 +28,7 @@ public class Product {
 
     @OneToMany
     private List<ProductImage> images; // 이미지 테이블과 일대다 관계로 이미지를 관리한다. -> JPA 관점에서 단방향 관계로 이미지는 Product 도메인에서만 참조한다.
+
+    @ManyToOne
+    private Account seller; // 판매자와는 다대일 관계 (양방향 관계)
 }

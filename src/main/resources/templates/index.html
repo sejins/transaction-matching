@@ -3,6 +3,7 @@
 <head th:replace="fragments.html :: head"></head>
 <body class="bg-light">
   <nav th:replace="fragments.html :: navbar"></nav>
+  <div th:replace="fragments.html :: redirect-message"></div>
   <div th:if="${confirmPlease}" class="alert alert-warning" role="alert">
     <p>회원가입시 입력한 이메일로 전송된 메시지를 통해 회원가입을 완료하세요.</p>
   </div>

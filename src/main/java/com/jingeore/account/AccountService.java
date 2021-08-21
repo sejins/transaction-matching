@@ -3,6 +3,7 @@ package com.jingeore.account;
 import com.jingeore.account.form.NicknameForm;
 import com.jingeore.account.form.PasswordForm;
 import com.jingeore.account.form.SignUpForm;
+import com.jingeore.product.Product;
 import com.jingeore.zone.Zone;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -137,5 +138,10 @@ public class AccountService implements UserDetailsService{
     public void removeZone(Account account, Zone zone) {
         Optional<Account> byId = accountRepository.findById(account.getId());
         byId.ifPresent(a -> a.getZones().remove(zone));
+    }
+
+    public void addProduct(Account account, Product newProduct) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getSellingProducts().add(newProduct));
     }
 }

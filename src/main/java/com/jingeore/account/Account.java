@@ -1,5 +1,7 @@
 package com.jingeore.account;
 
+import com.jingeore.product.Product;
+import com.jingeore.product.ProductController;
 import com.jingeore.zone.Zone;
 import lombok.*;
 
@@ -43,6 +45,9 @@ public class Account {
 
     @ManyToMany
     private Set<Zone> zones = new HashSet<>(); // 지역 도메인과 다대다 관계
+
+    @OneToMany(mappedBy = "seller")
+    private Set<Product> sellingProducts = new HashSet<>(); // 판매중인 상품과는 일대다 관계 (양방향 관계)
 
     // TODO 알림 기능 개발할 때 필요에 따라서 필드를 생성하기
 }
