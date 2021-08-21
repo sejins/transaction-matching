@@ -2,7 +2,6 @@ package com.jingeore.account.validator;
 
 import com.jingeore.account.AccountRepository;
 import com.jingeore.account.form.PasswordForm;
-import com.jingeore.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

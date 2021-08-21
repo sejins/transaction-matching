@@ -1,6 +1,5 @@
 package com.jingeore.zone;
 
-import com.jingeore.domain.Zone;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

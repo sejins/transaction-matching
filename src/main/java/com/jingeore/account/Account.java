@@ -1,5 +1,6 @@
-package com.jingeore.domain;
+package com.jingeore.account;
 
+import com.jingeore.zone.Zone;
 import lombok.*;
 
 import javax.persistence.*;

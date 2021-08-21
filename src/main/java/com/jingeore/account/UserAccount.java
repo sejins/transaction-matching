@@ -1,6 +1,5 @@
 package com.jingeore.account;
 
-import com.jingeore.domain.Account;
 import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

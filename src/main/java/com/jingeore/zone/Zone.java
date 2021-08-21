@@ -1,4 +1,4 @@
-package com.jingeore.domain;
+package com.jingeore.zone;
 
 import lombok.*;
 

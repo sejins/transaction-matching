@@ -2,10 +2,7 @@ package com.jingeore.account;
 
 import com.jingeore.WithMockCustomUser;
 import com.jingeore.account.form.SignUpForm;
-import com.jingeore.domain.Account;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

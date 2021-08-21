@@ -3,7 +3,7 @@ package com.jingeore.account.validator;
 import com.jingeore.account.AccountRepository;
 import com.jingeore.account.form.NicknameForm;
 
-import com.jingeore.domain.Account;
+import com.jingeore.account.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
