@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: navbar"></div>
+
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>상품 등록하기</h2>
+  </div>
+  <div class="row justify-content-center">
+    <form class="needs-validation col-sm-10" th:action="@{/new-product}"  th:object="${productForm}" method="post" novalidate>
+
+      <div class="form-group">
+        <label for="title">상품(게시글) 이름</label>
+        <input type="text" id="title" th:field="*{title}" class="form-control"
+               placeholder="상품 이름" aria-describedby="titleHelp" required max="50">
+        <small id="titleHelp" class="form-text text-muted">
+          상품(게시글) 이름을 50자 이내로 입력하세요.
+        </small>
+        <small class="invalid-feedback">상품(게시글) 이름을 입력하세요.</small>
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
+      </div>
+
+      <div class="form-group">
+        <label for="description">상품 설명</label>
+        <textarea id="description" type="textarea" th:field="*{description}" class="form-control"
+                  placeholder="상품에 대해서 소개해 주세요." aria-describedby="descriptionHelp" required maxlength="100"></textarea>
+        <small id="shortDescriptionHelp" class="form-text text-muted">
+          원활한 거래를 위해서 상품과 거래에 대한 상세한 설명을 적어주세요.
+        </small>
+        <small class="invalid-feedback">상품 소개를 입력하세요.</small>
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</small>
+      </div>
+
+      <div class="form-group">
+        <label for="offerPrice">제시 가격</label>
+        <input type="text" id="offerPrice" th:field="*{offerPrice}" class="form-control"
+               placeholder="제시 가격을 입력하세요." aria-describedby="offerPriceHelp">
+        <small id="offerPriceHelp" class="form-text text-muted" >
+          상품의 제시 가격을 입력하세요. 실제 거래 가격은 대화 후 구매자와 서로 조율이 가능합니다.
+        </small>
+        <small class="invalid-feedback">제시 가격을 입력하세요.</small>
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('offerPrice')}" th:errors="*{offerPrice}">OfferPrice Error</small>
+      </div>
+
+      <!--
+      <div class="form-group">
+        <label for="fullDescription">상세 설명</label>
+        <textarea id="fullDescription" type="textarea" th:field="*{fullDescription}" class="editor form-control"
+                  placeholder="스터디를 자세히 설명해 주세요." aria-describedby="fullDescriptionHelp" required></textarea>
+        <small id="fullDescriptionHelp" class="form-text text-muted">
+          스터디의 목표, 일정, 진행 방식, 사용할 교재 또는 인터넷 강좌 그리고 모집중인 스터디원 등 스터디에 대해 자세히 적어 주세요.
+        </small>
+        <small class="invalid-feedback">상세 소개를 입력하세요</small>
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('fullDescription')}" th:errors="*{fullDescription}">FullDescription Error</small>
+      </div>
+      -->
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">
+          상품 등록
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script th:replace="fragments.html :: validation"></script>
+</body>
+</html>
