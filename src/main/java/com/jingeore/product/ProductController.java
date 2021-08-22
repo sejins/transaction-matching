@@ -2,6 +2,7 @@ package com.jingeore.product;
 
 import com.jingeore.account.Account;
 import com.jingeore.account.AccountRepository;
+import com.jingeore.account.AccountService;
 import com.jingeore.account.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
     @GetMapping("/new-product")
     public String newProductForm(@CurrentUser Account account, Model model){
@@ -46,5 +48,13 @@ public class ProductController {
         model.addAttribute("myAccount", myAccount);
 
         return "product/info";
+    }
+
+    // TODO 하이퍼링크는 GET으로 넘어온다!!!!
+    @PostMapping("/favorite/{id}")
+    public String favoriteProduct(@CurrentUser Account account, Model model, @PathVariable Long id,  RedirectAttributes redirectAttributes){
+        Product product = productService.getProduct(id);
+        accountService.addFavoriteProduct(account, product);
+        return "redirect:/product/" + id;
     }
 }

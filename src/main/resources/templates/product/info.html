@@ -35,13 +35,16 @@
             <div class="row mt-5 justify-content-around" th:if="${myAccount.isNotMyProduct(product)}">
                 <hr/>
                 <div class="col-3 mt-3">
-                    <a href="#" th:href="@{'/favorite/' + ${product.getId()}}">
-                        <button type="button" class="btn btn-primary"><span class="lead">관심 상품 등록</span></button>
+                    <a href="#" th:href="@{'/favorite/' + ${product.getId()}}" th:if="${!myAccount.isFavoriteProduct(product)}">
+                        <button type="button" class="btn btn-secondary"><span class="lead">관심 상품 등록</span></button>
+                    </a>
+                    <a href="#" th:href="@{'/defavorite/' + ${product.getId()}}" th:if="${myAccount.isFavoriteProduct(product)}">
+                        <button type="button" class="btn btn-warning"><span class="lead">관심 상품 해제</span></button>
                     </a>
                 </div>
                 <div class="col-3 mt-3">
                     <a href="#" th:href="@{'/matching-offer/' + ${product.getId()}}">
-                        <button type="button" class="btn btn-primary"><span class="lead">매칭 요청</span></button>
+                        <button type="button" class="btn btn-secondary"><span class="lead">매칭 요청</span></button>
                     </a>
                 </div>
             </div>

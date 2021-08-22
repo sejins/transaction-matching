@@ -145,4 +145,9 @@ public class AccountService implements UserDetailsService{
         account.getSellingProducts().add(newProduct); // 세션 정보에도 변경사항을 반영
         byId.ifPresent(a -> a.getSellingProducts().add(newProduct));
     }
+
+    public void addFavoriteProduct(Account account, Product product) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        myAccount.getFavoriteProducts().add(product);
+    }
 }

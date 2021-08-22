@@ -51,10 +51,16 @@ public class Account {
     @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
     private Set<Product> sellingProducts = new HashSet<>(); // 판매중인 상품과는 일대다 관계 (양방향 관계)
 
+    @ManyToMany
+    private Set<Product> favoriteProducts = new HashSet<>(); // 관심 상품과 다대다 관계 (단방향 관계)
+
     // TODO 알림 기능 개발할 때 필요에 따라서 필드를 생성하기
 
     public boolean isNotMyProduct(Product product){
-        log.info(this.sellingProducts.contains(product)+"");
         return !this.sellingProducts.contains(product);
+    }
+
+    public boolean isFavoriteProduct(Product product){
+        return  this.favoriteProducts.contains(product);
     }
 }
