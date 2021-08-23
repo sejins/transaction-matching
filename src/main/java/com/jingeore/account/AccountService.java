@@ -150,4 +150,9 @@ public class AccountService implements UserDetailsService{
         Account myAccount = accountRepository.findByNickname(account.getNickname());
         myAccount.getFavoriteProducts().add(product);
     }
+
+    public void removeFavoriteProduct(Account account, Product product) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        myAccount.getFavoriteProducts().remove(product);
+    }
 }

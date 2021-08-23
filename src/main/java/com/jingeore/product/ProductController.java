@@ -50,11 +50,20 @@ public class ProductController {
         return "product/info";
     }
 
-    // TODO 하이퍼링크는 GET으로 넘어온다!!!!
-    @PostMapping("/favorite/{id}")
+    // TODO POST가 더 적절해보이는데 시간이 남으면 이 부분 수정
+    @GetMapping("/favorite/{id}")
     public String favoriteProduct(@CurrentUser Account account, Model model, @PathVariable Long id,  RedirectAttributes redirectAttributes){
         Product product = productService.getProduct(id);
         accountService.addFavoriteProduct(account, product);
+        redirectAttributes.addFlashAttribute("message","관심 상품으로 등록 되었습니다.");
+        return "redirect:/product/" + id;
+    }
+
+    @GetMapping("/defavorite/{id}")
+    public String defavoriteProduct(@CurrentUser Account account, Model model, @PathVariable Long id,  RedirectAttributes redirectAttributes){
+        Product product = productService.getProduct(id);
+        accountService.removeFavoriteProduct(account, product);
+        redirectAttributes.addFlashAttribute("message","관심 상품이 해제 되었습니다.");
         return "redirect:/product/" + id;
     }
 }
