@@ -64,23 +64,14 @@ public class ProductController {
 
         return "redirect:/product/" + id;
     }
-
-    @GetMapping("/imageTest/{id}")
-    public String imageTest(@CurrentUser Account account, Model model, @PathVariable Long id){
-        Product product = productService.getProduct(id);
-        model.addAttribute(account);
-        List<String> images = product.getImages().stream().map(ProductImage::getImagePath).collect(Collectors.toList());
-        images.add("");
-        model.addAttribute("images",images);
-        return "product/test";
-    }
-
+    
     @GetMapping("/product/{id}")
     public String productInfo(@CurrentUser Account account, Model model, @PathVariable Long id){
         Product product = productService.getProduct(id);
         Account myAccount = accountRepository.findByNickname(account.getNickname());
         model.addAttribute(account);
         model.addAttribute(product);
+        model.addAttribute("images",product.getImages());
         model.addAttribute("myAccount", myAccount);
 
         List<String> images = product.getImages().stream().map(ProductImage::getImagePath).collect(Collectors.toList());

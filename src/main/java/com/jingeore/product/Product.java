@@ -4,6 +4,7 @@ import com.jingeore.account.Account;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +34,9 @@ public class Product {
     private Account seller; // 판매자와는 다대일 관계 (양방향 관계)
 
 
-    public String getPriceByWon(){
-        return this.offerPrice + "원";
+    public String getPriceByWon() {
+        DecimalFormat formatter = new DecimalFormat("###,###");
+        return formatter.format(this.offerPrice)+"원";
     }
+
 }
