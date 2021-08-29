@@ -44,19 +44,6 @@
         <small class="form-text text-danger" th:if="${#fields.hasErrors('offerPrice')}" th:errors="*{offerPrice}">OfferPrice Error</small>
       </div>
 
-      <!--
-      <div class="form-group">
-        <label for="fullDescription">상세 설명</label>
-        <textarea id="fullDescription" type="textarea" th:field="*{fullDescription}" class="editor form-control"
-                  placeholder="스터디를 자세히 설명해 주세요." aria-describedby="fullDescriptionHelp" required></textarea>
-        <small id="fullDescriptionHelp" class="form-text text-muted">
-          스터디의 목표, 일정, 진행 방식, 사용할 교재 또는 인터넷 강좌 그리고 모집중인 스터디원 등 스터디에 대해 자세히 적어 주세요.
-        </small>
-        <small class="invalid-feedback">상세 소개를 입력하세요</small>
-        <small class="form-text text-danger" th:if="${#fields.hasErrors('fullDescription')}" th:errors="*{fullDescription}">FullDescription Error</small>
-      </div>
-      -->
-
       <div class="form-group">
         <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">
           상품 등록

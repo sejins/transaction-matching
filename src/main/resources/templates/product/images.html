@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: navbar"></div>
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>상품 이미지 등록하기</h2>
+  </div>
+  <div class="row justify-content-center">
+    <form class="needs-validation col-sm-10" th:action="@{'/product/addImages/' + ${id}}"  method="post"  enctype="multipart/form-data" >
+      <div class="form-group">
+        <label for="images">상품 이미지</label>
+        <input multiple type="file" id="images" name="images" class="form-control"
+               placeholder="상품 이미지" aria-describedby="imagesHelp" required>
+        <small id="imagesHelp" class="form-text text-muted">
+          상품 이미지를 추가하세요. 상품을 잘 나타내는 이미지로 선택해주세요.
+        </small>
+        <small class="invalid-feedback">상품 이미지를 입력하세요.</small>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">
+          이미지 등록
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
