@@ -4,6 +4,7 @@ import com.jingeore.account.form.NicknameForm;
 import com.jingeore.account.form.PasswordForm;
 import com.jingeore.account.form.SignUpForm;
 import com.jingeore.product.Product;
+import com.jingeore.product.ProductRepository;
 import com.jingeore.zone.Zone;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -32,6 +33,7 @@ public class AccountService implements UserDetailsService{
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
+    private final ProductRepository productRepository;
 
     public Account createNewAccount(SignUpForm signUpForm) {
 
@@ -154,5 +156,13 @@ public class AccountService implements UserDetailsService{
     public void removeFavoriteProduct(Account account, Product product) {
         Account myAccount = accountRepository.findByNickname(account.getNickname());
         myAccount.getFavoriteProducts().remove(product);
+    }
+
+    // 구매자에게 매칭 요청 관계를 추가.
+    public void addMatchingOffer(Account account, Long id) {
+        Account buyer = accountRepository.findByNickname(account.getNickname());
+        Optional<Product> byId = productRepository.findById(id);
+        Product product = byId.orElseThrow();
+        buyer.getMatchingOffers().add(product);
     }
 }

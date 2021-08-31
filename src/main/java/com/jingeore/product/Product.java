@@ -6,7 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
@@ -33,6 +35,8 @@ public class Product {
     @ManyToOne
     private Account seller; // 판매자와는 다대일 관계 (양방향 관계)
 
+    @ManyToMany
+    private Set<Account> buyerOffers = new HashSet<>(); // 현재 상품에 대해서 들어온 매칭 요청 (양방향 관계)
 
     public String getPriceByWon() {
         DecimalFormat formatter = new DecimalFormat("###,###");

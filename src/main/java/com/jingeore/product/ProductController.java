@@ -5,6 +5,7 @@ import com.jingeore.account.AccountRepository;
 import com.jingeore.account.AccountService;
 import com.jingeore.account.CurrentUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -16,19 +17,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
 @Controller
+@Slf4j
 public class ProductController {
 
     private final ProductService productService;
     private final AccountRepository accountRepository;
+    private final ProductRepository productRepository;
     private final AccountService accountService;
     private final ImageService imageService;
 
@@ -64,7 +64,7 @@ public class ProductController {
 
         return "redirect:/product/" + id;
     }
-    
+
     @GetMapping("/product/{id}")
     public String productInfo(@CurrentUser Account account, Model model, @PathVariable Long id){
         Product product = productService.getProduct(id);
@@ -82,7 +82,7 @@ public class ProductController {
 
     // TODO POST가 더 적절해보이는데 시간이 남으면 이 부분 수정
     @GetMapping("/favorite/{id}")
-    public String favoriteProduct(@CurrentUser Account account, Model model, @PathVariable Long id,  RedirectAttributes redirectAttributes){
+    public String favoriteProduct(@CurrentUser Account account, Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
         Product product = productService.getProduct(id);
         accountService.addFavoriteProduct(account, product);
         redirectAttributes.addFlashAttribute("message","관심 상품으로 등록 되었습니다.");
@@ -90,24 +90,21 @@ public class ProductController {
     }
 
     @GetMapping("/defavorite/{id}")
-    public String defavoriteProduct(@CurrentUser Account account, Model model, @PathVariable Long id,  RedirectAttributes redirectAttributes){
+    public String defavoriteProduct(@CurrentUser Account account, Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
         Product product = productService.getProduct(id);
         accountService.removeFavoriteProduct(account, product);
         redirectAttributes.addFlashAttribute("message","관심 상품이 해제 되었습니다.");
         return "redirect:/product/" + id;
     }
 
-//    @GetMapping("/imageAddTest")
-//    public String addImage(@CurrentUser Account account, Model model){
-//        model.addAttribute(account);
-//        return "product/addImage";
-//    }
-//
-//    @PostMapping("/upload-image")
-//    public String uploadImages(@CurrentUser Account account, Model model, @RequestParam("files") List<MultipartFile> files) throws IOException {
-//        Date date = new Date();
-//        StringBuilder sb = new StringBuilder();
-//
-//
-//    }
+    @PostMapping("/matching-offer/{id}")
+    public String offerMatching(@CurrentUser Account account, Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
+        model.addAttribute(account);
+        accountService.addMatchingOffer(account, id); // 구매자에게 매칭 요청 관계를 추가.
+        productService.addMatchingOffer(id, account); // 판매자 상품에 매칭 요청 관계를 추가 -> 여기에는 추가적으로 판매자 계정에는 새로운 매칭 요청이 생겼다는 알림을 위한 필드를 생성한다.
+        redirectAttributes.addFlashAttribute("message","매칭 요청을 보냈습니다.");
+
+        return "redirect:/product/" + id;
+    }
+
 }

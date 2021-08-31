@@ -44,9 +44,9 @@
                     </a>
                 </div>
                 <div class="col-3 mt-3">
-                    <a href="#" th:href="@{'/matching-offer/' + ${product.getId()}}">
-                        <button type="button" class="btn btn-secondary"><span class="lead">매칭 요청</span></button>
-                    </a>
+                    <form th:action="@{'/matching-offer/' + ${product.getId()}}" method="post">
+                        <button type="submit"  class="btn btn-secondary"><span class="lead">매칭 요청</span></button>
+                    </form>
                 </div>
             </div>
         </div>
