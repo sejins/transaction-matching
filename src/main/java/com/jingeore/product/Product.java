@@ -43,4 +43,7 @@ public class Product {
         return formatter.format(this.offerPrice)+"원";
     }
 
+    public Set<Account> getBuyerOffers() {
+        return buyerOffers;
+    }
 }

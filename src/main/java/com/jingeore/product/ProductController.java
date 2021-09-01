@@ -107,4 +107,11 @@ public class ProductController {
         return "redirect:/product/" + id;
     }
 
+    @GetMapping("/matching-list")
+    public String getMatchingList(@CurrentUser Account account, Model model){
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        model.addAttribute(account);
+        model.addAttribute("myAccount", myAccount);
+        return "product/matching-list";
+    }
 }
