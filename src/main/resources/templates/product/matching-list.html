@@ -8,34 +8,31 @@
     <div class="py-5 text-center">
       <h2>매칭 요청</h2>
     </div>
-
     <div class="row mt-5 justify-content-center">
       <div class="col-4 justify-content-center">
         <h3 class="text-center mb-5">받은 요청</h3>
         <ul class="list-group" th:each="sellingProduct: ${myAccount.getSellingProducts()}">
+          <a th:href="@{'/matching-details/' + ${sellingProduct.getId()}}" class="text-decoration-none">
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <img th:src="${sellingProduct.getImages().get(0).getImagePath()}" alt="" width="65" height="65">
-            <p th:text="${sellingProduct.getTitle()}" class="lead text-center"></p>
-            <span th:if="${sellingProduct.getBuyerOffers().size() != 0}" class="badge bg-primary badge-pill" th:text="${sellingProduct.getBuyerOffers().size()}"></span>
-            <span th:if="${sellingProduct.getBuyerOffers().size() == 0}" class="badge bg-primary badge-pill invisible">0</span>
+              <img th:src="${sellingProduct.getImages().get(0).getImagePath()}" alt="" width="65" height="65">
+              <p th:text="${sellingProduct.getTitle()}" class="lead text-center mb-0"></p>
+              <span th:if="${sellingProduct.getBuyerOffers().size() != 0}" class="badge bg-primary badge-pill" th:text="${sellingProduct.getBuyerOffers().size()}"></span>
+              <span th:if="${sellingProduct.getBuyerOffers().size() == 0}" class="badge bg-primary badge-pill invisible">0</span>
           </li>
+          </a>
         </ul>
       </div>
       <div class="col-4 justify-content-center">
         <h3 class="text-center mb-5">보낸 요청</h3>
         <ul class="list-group" th:each="offerProduct: ${myAccount.getMatchingOffers()}">
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <img src="/images/test_image.jpg" alt="" width="60" height="60">
-            <p th:text="${offerProduct.getTitle()}" class="lead"></p>
+            <img th:src="${offerProduct.getImages().get(0).getImagePath()}" alt="" width="65" height="65">
+            <p th:text="${offerProduct.getTitle()}" class="lead  mb-0"></p>
             <span th:text="${offerProduct.getPriceByWon()}">price</span>
           </li>
         </ul>
       </div>
     </div>
-
-
-
-
   </div>
 </body>
 </html>

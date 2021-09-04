@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -113,5 +114,14 @@ public class ProductController {
         model.addAttribute(account);
         model.addAttribute("myAccount", myAccount);
         return "product/matching-list";
+    }
+
+    @GetMapping("/matching-details/{id}")
+    public String matchingDetails(@CurrentUser Account account, Model model, @PathVariable Long id) {
+        Optional<Product> byId = productRepository.findById(id);
+        Product product = byId.orElseThrow();
+        model.addAttribute(account);
+        model.addAttribute(product);
+        return "/product/matching-details";
     }
 }
