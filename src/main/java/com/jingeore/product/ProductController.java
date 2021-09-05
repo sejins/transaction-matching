@@ -124,4 +124,13 @@ public class ProductController {
         model.addAttribute(product);
         return "/product/matching-details";
     }
+
+    @GetMapping("/cancel-matching-offer/{productId}/{offerorId}")
+    public String cancelOffer(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Long offerorId, RedirectAttributes redirectAttributes) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        Account offeror = accountRepository.findById(offerorId).orElseThrow();
+        productService.cancelOffer(product, offeror);
+        redirectAttributes.addFlashAttribute("message", "요청을 취소하였습니다.");
+        return "redirect:/matching-details/" + product.getId();
+    }
 }

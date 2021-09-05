@@ -41,4 +41,9 @@ public class ProductService {
         Product product = byId.orElseThrow();
         product.getBuyerOffers().add(buyer);
     }
+
+    public void cancelOffer(Product product, Account offeror) {
+        product.getBuyerOffers().remove(offeror);
+        accountService.cancelOffer(offeror, product);
+    }
 }

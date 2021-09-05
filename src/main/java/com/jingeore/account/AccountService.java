@@ -165,4 +165,8 @@ public class AccountService implements UserDetailsService{
         Product product = byId.orElseThrow();
         buyer.getMatchingOffers().add(product);
     }
+
+    public void cancelOffer(Account offeror, Product product) {
+        offeror.getMatchingOffers().remove(product);
+    }
 }
