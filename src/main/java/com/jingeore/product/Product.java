@@ -38,6 +38,9 @@ public class Product {
     @ManyToMany
     private Set<Account> buyerOffers = new HashSet<>(); // 현재 상품에 대해서 들어온 매칭 요청 (양방향 관계)
 
+    @ManyToOne
+    private Account buyer; // 구매자와는 다대일 관계(양방향 관계)
+
     public String getPriceByWon() {
         DecimalFormat formatter = new DecimalFormat("###,###");
         return formatter.format(this.offerPrice)+"원";

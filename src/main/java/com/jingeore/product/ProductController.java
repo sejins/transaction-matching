@@ -133,4 +133,16 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("message", "요청을 취소하였습니다.");
         return "redirect:/matching-details/" + product.getId();
     }
+
+    @GetMapping("/confirm-matching-offer/{productId}/{offerorId}")
+    public String confirmOffer(@CurrentUser Account account,
+                               Model model,
+                               @PathVariable Long productId,
+                               @PathVariable Long offerorId,
+                               RedirectAttributes redirectAttributes) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        Account offeror = accountRepository.findById(offerorId).orElseThrow();
+        productService.confirmMatchingOffer(product, offeror);
+        return "product/current-matchings";
+    }
 }

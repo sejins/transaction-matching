@@ -24,49 +24,6 @@
   </style>
 </head>
 
-<!-- 네비게이션 바 -->
-<!-- <nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark bg-primary">
-  <a class="navbar-brand" th:href="@{/}">Logo</a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <form>
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        </form>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav justify-content-end">
-      <li class="nav-item px-1" sec:authorize="!isAuthenticated()">
-        <a class="nav-link active " aria-current="page" th:href="@{/login}">Sign in</a>
-      </li>
-      <li class="nav-item px-1" sec:authorize="!isAuthenticated()">
-        <a class="nav-link active" th:href="@{/sign-up}">Sign up</a>
-      </li>
-      <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <svg th:if="${#strings.isEmpty(account?.profileImage)}" th:data-jdenticon-value="${account.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li><p class="text-center" th:text="${account.getNickname()}">닉네임</p></li>
-          <li><a class="dropdown-item text-center" th:href="@{'/profile/' + ${account.getNickname()}}">프로필</a></li>
-          <li><a class="dropdown-item text-center" th:href="@{/settings/nickname}">프로필 수정</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li>
-            <form  class="form-inline my-2 my-lg-0" action="#"  th:action="@{/logout}" method="post">
-              <button class="dropdown-item text-center" type="submit">로그아웃</button>
-            </form>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</nav>
- -->
 <nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
   <a class="navbar-brand" href="/" th:href="@{/}">
     <!-- <img src="/images/angFlower.png" width="30" height="30"> -->
@@ -105,6 +62,7 @@
           <li><p class="text-center" th:text="${account.getNickname()}">닉네임</p></li>
           <li><a class="dropdown-item text-center" th:href="@{'/profile/' + ${account.getNickname()}}">프로필</a></li>
           <li><a class="dropdown-item text-center" th:href="@{/settings/nickname}">프로필 수정</a></li>
+          <li><a class="dropdown-item text-center" th:href="@{/matching-list}">매칭 요청</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>
             <form  class="form-inline my-2 my-lg-0" action="#"  th:action="@{/logout}" method="post">

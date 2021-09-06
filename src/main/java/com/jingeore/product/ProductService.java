@@ -46,4 +46,11 @@ public class ProductService {
         product.getBuyerOffers().remove(offeror);
         accountService.cancelOffer(offeror, product);
     }
+
+    public void confirmMatchingOffer(Product product, Account offeror) {
+        cancelOffer(product, offeror); // 현재 존재하는 매칭 요청은 이제 삭제.
+        product.setBuyer(offeror);
+        product.setStatus(ProductStatus.MATCHING);
+        accountService.confirmMatchingOffer(offeror, product);
+    }
 }

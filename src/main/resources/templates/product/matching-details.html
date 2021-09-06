@@ -17,7 +17,7 @@
                     <p th:text="${offeror.getNickname()}" class="h4 text-center mb-0 text-dark"></p>
                 </div>
                 <div style="width: 150px" class="d-flex justify-content-between align-items-center">
-                    <a href="/hello">
+                    <a th:href="@{'/confirm-matching-offer/' + ${product.getId()} + '/' + ${offeror.getId()}}">
                         <button type="button" class="btn btn-primary">수락</button>
                     </a>
                     <a th:href="@{'/cancel-matching-offer/' + ${product.getId()} + '/' + ${offeror.getId()}}" >

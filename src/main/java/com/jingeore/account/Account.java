@@ -57,6 +57,9 @@ public class Account {
     @ManyToMany(mappedBy = "buyerOffers")
     private Set<Product> matchingOffers = new HashSet<>(); // 매칭 요청과 다대다 관계 (양방향 관계)
 
+    @OneToMany(mappedBy = "buyer")
+    private Set<Product> matching = new HashSet<>(); // 매칭 관계는 일대다 관계 (양방향 관계)
+
     // TODO 알림 기능 개발할 때 필요에 따라서 필드를 생성하기
 
     public boolean isNotMyProduct(Product product){
