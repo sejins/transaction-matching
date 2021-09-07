@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.InputStream;
 
 
-@Profile("local")
+@Profile({"local", "dev"})
 @Slf4j
 @Component
 public class ConsoleMailSender implements JavaMailSender { // JavaMailSender의 구현체 -> 이 빈을 주입받을 것임!
