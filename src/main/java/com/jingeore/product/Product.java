@@ -49,4 +49,8 @@ public class Product {
     public Set<Account> getBuyerOffers() {
         return buyerOffers;
     }
+
+    public boolean canBeChangedToDealing(Account account) {
+        return buyer.equals(account);
+    }
 }

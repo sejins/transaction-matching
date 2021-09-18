@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: navbar"></div>
+<div class="container">
+  <div class="row mt-5 justify-content-center">
+    <div class="col-2 mt-5">
+    </div>
+    <div class="col-6 mt-5 mx-5 bg-white d-flex flex-column justify-content-center">
+      <h1 class="text-center mt-4" th:text="${product.getTitle()}">상품 이름</h1>
+      <div class="d-flex justify-content-center">
+        <span th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="badge bg-light text-dark fs-3 text-center">매칭중</span>
+        <span th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge bg-light text-dark fs-3 text-center">거래중</span>
+        <span th:if="${product.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge bg-light text-dark fs-3 text-center">거래완료</span>
+      </div>
+      <img class="rounded mx-auto d-block mt-4" th:src="${product.getImages().get(0).getImagePath()}" alt="" width="550" height="550">
+      <h3 th:text="${product.getPriceByWon()}" class="text-center mt-4"></h3>
+      <div class="d-flex justify-content-center">
+        <a th:href="@{'/profile/' + ${product.buyer.getNickname()}}" class="d-flex justify-content-center mt-3 text-decoration-none">
+          <svg th:if="${#strings.isEmpty(product.buyer?.profileImage)}" th:data-jdenticon-value="${product.buyer.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
+          <p th:text="${product.buyer.getNickname() }" class="h4 text-center text-dark ps-4"></p>
+        </a>
+      </div>
+      <hr class="mt-5">
+      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="d-flex justify-content-evenly mt-5 mb-5">
+        <a th:if="${product.canBeChangedToDealing(myAccount)}" href="#" class="text-decoration-none">
+          <h4 class="text-dark">거래 요청</h4>
+        </a>
+        <a href="#" class="text-decoration-none">
+          <h4 class="text-danger">매칭 취소</h4>
+        </a>
+      </div>
+      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="d-flex justify-content-around mt-5 mb-5">
+        <a href="#" class="text-decoration-none">
+          <h4 class="text-dark">거래 완료</h4>
+        </a>
+        <a href="#" class="text-decoration-none">
+          <h4 class="text-dark">거래 취소</h4>
+        </a>
+      </div>
+    </div>
+    <div class="col-2 mt-5">
+    </div>
+  </div>
+</div>
+</body>
+</html>

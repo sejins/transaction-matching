@@ -164,4 +164,14 @@ public class ProductController {
 
         return "matching/current-matchings-sell";
     }
+
+    @GetMapping("/current-matching/detail/{id}")
+    public String currentMatchingDetail(@CurrentUser Account account, Model model, @PathVariable Long id) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        Product matchingProduct = productRepository.findById(id).orElseThrow();
+        model.addAttribute(account);
+        model.addAttribute("myAccount", myAccount);
+        model.addAttribute(matchingProduct);
+        return "matching/current-matching-detail";
+    }
 }

@@ -15,7 +15,7 @@
                 <h2 th:if="${myAccount.matching.size() == 0}" class="text-center"> 현재 진행중인 매칭이 없습니다.</h2>
                 <ul class="list-group list-group-flush" th:each="buyingProduct: ${myAccount.getMatching()}">
                     <li th:if="${buyingProduct.status == T(com.jingeore.product.ProductStatus).MATCHING}" class=" list-group-item d-flex flex-column justify-content-center text-decoration-none">
-                        <a href="#" class="text-decoration-none pt-3">
+                        <a th:href="@{'/current-matching/detail/' + ${buyingProduct.getId()}}" href="#" class="text-decoration-none pt-3" >
                             <img class="rounded mx-auto d-block" th:src="${buyingProduct.getImages().get(0).getImagePath()}" alt="" width="450" height="450">
                         </a>
                         <h3 th:text="${buyingProduct.getTitle()}" class="text-center mt-4"></h3>
