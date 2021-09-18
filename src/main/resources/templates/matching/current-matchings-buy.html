@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: navbar"></div>
+<div class="container">
+    <div class="row mt-5 justify-content-center">
+        <h1 class="mt-5 text-center" >진행중인 매칭</h1>
+        <div class="col-2 mt-5">
+            <div th:replace="fragments.html :: current-matching-menu (currentMenu='buy')"></div>
+        </div>
+
+        <div class="col-5 mt-5 mx-5">
+            <div class="row">
+                <h2 th:if="${myAccount.matching.size() == 0}" class="text-center"> 현재 진행중인 매칭이 없습니다.</h2>
+                <ul class="list-group list-group-flush" th:each="buyingProduct: ${myAccount.getMatching()}">
+                    <li th:if="${buyingProduct.status == T(com.jingeore.product.ProductStatus).MATCHING}" class=" list-group-item d-flex flex-column justify-content-center text-decoration-none">
+                        <a href="#" class="text-decoration-none pt-3">
+                            <img class="rounded mx-auto d-block" th:src="${buyingProduct.getImages().get(0).getImagePath()}" alt="" width="450" height="450">
+                        </a>
+                        <h3 th:text="${buyingProduct.getTitle()}" class="text-center mt-4"></h3>
+                        <div class="row justify-content-center">
+                            <div class="col-7 d-flex justify-content-between mt-4">
+                                        <span class="d-flex">
+                                            <svg th:if="${#strings.isEmpty(buyingProduct.buyer?.profileImage)}" th:data-jdenticon-value="${buyingProduct.buyer.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
+                                            <p th:text="${buyingProduct.buyer.getNickname() }" class="h4 text-center mb-0 text-dark ps-4"></p>
+                                        </span>
+                                <span th:if="${buyingProduct.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="badge rounded-pill bg-light text-dark fs-6">매칭중</span>
+                                <span th:if="${buyingProduct.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge rounded-pill bg-light text-dark fs-6">거래중</span>
+                                <span th:if="${buyingProduct.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge rounded-pill bg-light text-dark fs-6">거래완료</span>
+                            </div>
+                        </div>
+                    </li>
+                    <br/>
+                </ul>
+            </div>
+        </div>
+        <div class="col-2 mt-5">
+        </div>
+    </div>
+</div>
+</body>
+</html>

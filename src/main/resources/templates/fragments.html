@@ -234,4 +234,9 @@
   </div>
 </div>
 
+<div th:fragment="current-matching-menu (currentMenu)" class="list-group">
+  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'buy'}? active" href="#" th:href="@{/current-matching/buy}">구매</a>
+  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'sell'}? active" href="#" th:href="@{/current-matching/sell}">판매</a>
+</div>
+
 </html>

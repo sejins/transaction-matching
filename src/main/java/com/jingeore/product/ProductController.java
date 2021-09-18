@@ -143,6 +143,25 @@ public class ProductController {
         Product product = productRepository.findById(productId).orElseThrow();
         Account offeror = accountRepository.findById(offerorId).orElseThrow();
         productService.confirmMatchingOffer(product, offeror);
-        return "product/current-matchings";
+
+        return "redirect:/current-matching/buy";
+    }
+
+    @GetMapping("/current-matching/buy")
+    public String currentMatchingBuy(@CurrentUser Account account, Model model) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        model.addAttribute(account);
+        model.addAttribute("myAccount", myAccount);
+
+        return "matching/current-matchings-buy";
+    }
+
+    @GetMapping("/current-matching/sell")
+    public String currentMatchingSell(@CurrentUser Account account, Model model) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        model.addAttribute(account);
+        model.addAttribute("myAccount", myAccount);
+
+        return "matching/current-matchings-sell";
     }
 }
