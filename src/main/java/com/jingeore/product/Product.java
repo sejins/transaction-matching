@@ -53,4 +53,9 @@ public class Product {
     public boolean canBeChangedToDealing(Account account) {
         return buyer.equals(account);
     }
+
+    public void cancelMatching() {
+        this.status = ProductStatus.NONE;
+        this.buyer = null;
+    }
 }

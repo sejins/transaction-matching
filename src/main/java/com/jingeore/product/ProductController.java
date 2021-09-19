@@ -174,4 +174,10 @@ public class ProductController {
         model.addAttribute(matchingProduct);
         return "matching/current-matching-detail";
     }
+
+    @PostMapping("/cancel-matching/{productId}/{buyerId}")
+    public String cancelMatching(@CurrentUser Account account, @PathVariable Long productId, @PathVariable Long buyerId) {
+        productService.cancelMatching(productId, buyerId);
+        return "redirect:/current-matching/sell";
+    }
 }

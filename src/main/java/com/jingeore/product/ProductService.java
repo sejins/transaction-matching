@@ -53,4 +53,11 @@ public class ProductService {
         product.setStatus(ProductStatus.MATCHING);
         accountService.confirmMatchingOffer(offeror, product);
     }
+
+    public void cancelMatching(Long productId, Long buyerId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        Account buyer = accountRepository.findById(buyerId).orElseThrow();
+        product.cancelMatching();
+        buyer.cancelMatching(product);
+    }
 }

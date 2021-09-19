@@ -42,7 +42,7 @@
               </div>
               <div class="modal-footer">
                 <a href="#" data-bs-dismiss="modal" class="text-decoration-none text-dark">취소</a>
-                <form action="#" method="post">
+                <form th:action="@{'/cancel-matching/' + ${product.getId()} + '/' + ${product.buyer.getId()}}" method="post">
                   <button type="submit" class="btn btn-link text-decoration-none text-dark">확인</button>
                 </form>
               </div>
