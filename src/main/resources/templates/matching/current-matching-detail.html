@@ -27,9 +27,28 @@
         <a th:if="${product.canBeChangedToDealing(myAccount)}" href="#" class="text-decoration-none">
           <h4 class="text-dark">거래 요청</h4>
         </a>
-        <a href="#" class="text-decoration-none">
-          <h4 class="text-danger">매칭 취소</h4>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-decoration-none">
+          <h4 class="text-danger" data-toggle="modal" data-target="#exampleModal">매칭 취소</h4>
         </a>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">매칭 취소</h4>
+              </div>
+              <div class="modal-body">
+                <span>현재 진행중인 매칭을 취소하시겠습니까?</span><br>
+                <span>상대방과 상의하지 않은 일방적인 취소 행위에는 <b>패널티</b>가 부여될 수 있습니다.</span>
+              </div>
+              <div class="modal-footer">
+                <a href="#" data-bs-dismiss="modal" class="text-decoration-none text-dark">취소</a>
+                <form action="#" method="post">
+                  <button type="submit" class="btn btn-link text-decoration-none text-dark">확인</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="d-flex justify-content-around mt-5 mb-5">
         <a href="#" class="text-decoration-none">
