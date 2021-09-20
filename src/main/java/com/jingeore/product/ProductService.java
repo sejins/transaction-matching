@@ -60,4 +60,12 @@ public class ProductService {
         product.cancelMatching();
         buyer.cancelMatching(product);
     }
+
+    public void requestDealing(Product product) {
+        product.setStatus(ProductStatus.IN_REQUEST);
+    }
+
+    public void confirmDealingRequest(Product product) {
+        product.setStatus(ProductStatus.DEALING);
+    }
 }

@@ -58,4 +58,8 @@ public class Product {
         this.status = ProductStatus.NONE;
         this.buyer = null;
     }
+
+    public boolean inProgress() {
+        return this.status == ProductStatus.MATCHING || this.status == ProductStatus.IN_REQUEST || this.status == ProductStatus.DEALING;
+    }
 }

@@ -73,4 +73,8 @@ public class Account {
     public void cancelMatching(Product product) {
         this.matching.remove(product);
     }
+
+    public boolean isMyProduct(Product product) {
+        return this.sellingProducts.contains(product);
+    }
 }

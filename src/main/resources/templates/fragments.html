@@ -234,6 +234,32 @@
   </div>
 </div>
 
+<div th:fragment="cancel-matching">
+  <a href="#" data-bs-toggle="modal" data-bs-target="#cancelMatching" class="text-decoration-none">
+    <h4 class="text-danger" data-toggle="modal" data-target="#cancelMatching">매칭 취소</h4>
+  </a>
+  <div class="modal fade" id="cancelMatching" tabindex="-1" role="dialog" aria-labelledby="cancelMatchingLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="cancelMatchingLabel">매칭 취소</h4>
+        </div>
+        <div class="modal-body">
+          <span>현재 진행중인 매칭을 취소하시겠습니까?</span><br>
+          <span>상대방과 상의하지 않은 일방적인 취소 행위에는 <b>패널티</b>가 부여될 수 있습니다.</span>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-bs-dismiss="modal" class="text-decoration-none text-dark">취소</a>
+          <form th:action="@{'/cancel-matching/' + ${product.getId()} + '/' + ${product.buyer.getId()}}" method="post">
+            <button type="submit" class="btn btn-link text-decoration-none text-dark">확인</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div th:fragment="current-matching-menu (currentMenu)" class="list-group">
   <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'buy'}? active" href="#" th:href="@{/current-matching/buy}">구매</a>
   <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'sell'}? active" href="#" th:href="@{/current-matching/sell}">판매</a>

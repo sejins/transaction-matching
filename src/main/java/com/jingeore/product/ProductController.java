@@ -180,4 +180,24 @@ public class ProductController {
         productService.cancelMatching(productId, buyerId);
         return "redirect:/current-matching/sell";
     }
+
+    @PostMapping("/request-dealing/{productId}")
+    public String requestDealing(@CurrentUser Account account, @PathVariable Long productId, RedirectAttributes redirectAttributes) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        if (!product.getBuyer().equals(accountRepository.findByNickname(account.getNickname())))
+            throw new IllegalArgumentException("거래 요청은 구매자만 할 수 있습니다.");
+        productService.requestDealing(product);
+        redirectAttributes.addFlashAttribute("message", "거래 요청이 성공적으로 완료되었습니다.");
+        return "redirect:/current-matching/detail/" + productId;
+    }
+
+    @PostMapping("/confirm-dealing-request/{productId}")
+    public String confirmDealingRequest(@CurrentUser Account account, @PathVariable Long productId, RedirectAttributes redirectAttributes) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        if (!product.getSeller().equals(accountRepository.findByNickname(account.getNickname())))
+            throw new IllegalArgumentException("거래요청수락은 판매자만 할 수 있습니다.");
+        productService.confirmDealingRequest(product);
+        redirectAttributes.addFlashAttribute("message", "거래요청을 수락했습니다.");
+        return "redirect:/current-matching/detail/" + productId;
+    }
 }
