@@ -81,7 +81,6 @@ public class AccountController{
         if(profileAccount == null){
             throw new IllegalArgumentException(nickname + "에 해당하는 사용자가 없습니다.");
         }
-
         model.addAttribute(account);
         model.addAttribute("profileAccount",profileAccount);
         model.addAttribute("itsMyProfile",nickname.equals(account.getNickname()));

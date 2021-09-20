@@ -29,4 +29,12 @@ public class Zone {
     public String toString(){
         return String.format("%s(%s)/%s",localNameOfCity, city, province);
     }
+
+    public String getZoneInfoInKr() {
+        if (province.equals("none")) {
+            return localNameOfCity;
+        } else {
+            return province + " " + localNameOfCity;
+        }
+    }
 }

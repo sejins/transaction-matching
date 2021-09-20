@@ -38,7 +38,6 @@ public class Account {
     private String profileImage;
 
     private LocalDateTime regDate;
-
     private Double sellingMannerScore = 5.0;
 
     private Double buyingMannerScore = 5.0;

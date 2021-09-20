@@ -11,7 +11,11 @@
       </div>
       <div class="col-4 px-5">
         <h1 class="pt-3" th:text="${profileAccount.getNickname()}">nickname</h1>
-        <p class="lead pt-3">활동 지역</p>
+<!--        <p class="lead pt-3">활동 지역</p>-->
+        <span th:each="zone: ${profileAccount.getZones()}">
+          <span th:text="${zone.getZoneInfoInKr()}" class="badge bg-dark text-white fs-6"></span>
+<!--          <span class="badge badge-dark" th:text="${zone.getZoneInfoInKr()}"></span>-->
+        </span>
       </div>
       <div class="col-4">
         <div class="pt-4"><span class="lead">구매 평점</span><span class="px-3" th:text="${profileAccount.getBuyingMannerScore()}"></span></div>

@@ -63,6 +63,7 @@
           <li><a class="dropdown-item text-center" th:href="@{'/profile/' + ${account.getNickname()}}">프로필</a></li>
           <li><a class="dropdown-item text-center" th:href="@{/settings/nickname}">프로필 수정</a></li>
           <li><a class="dropdown-item text-center" th:href="@{/matching-list}">매칭 요청</a></li>
+          <li><a class="dropdown-item text-center" th:href="@{/current-matching/buy}">진행중인 매칭</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>
             <form  class="form-inline my-2 my-lg-0" action="#"  th:action="@{/logout}" method="post">
