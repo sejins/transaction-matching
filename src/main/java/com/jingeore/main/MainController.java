@@ -31,10 +31,16 @@ public class MainController {
     }
 
     @GetMapping("/search/product")
-    public String searchProduct(String keyword, Model model) {
-        keyword = "테스트";
+    public String searchProduct(@CurrentUser Account account, String keyword, Model model) {
         List<Product> productList = productRepository.findByKeyword(keyword);
-        System.out.println(productList.get(0).getTitle());
-        return "redirect:/";
+        for (Product product : productList) {
+            System.out.println(product.getTitle());
+        }
+        if (account != null) {
+            model.addAttribute(account);
+        }
+        model.addAttribute("productList", productList);
+        model.addAttribute("keyword", keyword);
+        return "search";
     }
 }

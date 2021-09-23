@@ -12,7 +12,7 @@ public class ProductRepositoryExtensionImpl extends QuerydslRepositorySupport im
     @Override
     public List<Product> findByKeyword(String keyword) {
         QProduct product = QProduct.product;
-        JPQLQuery<Product> query = from(product).where(product.status.eq(ProductStatus.MATCHING)
+        JPQLQuery<Product> query = from(product).where(product.status.eq(ProductStatus.NONE)
         .and(product.title.containsIgnoreCase(keyword)));
         return query.fetch();
     }
