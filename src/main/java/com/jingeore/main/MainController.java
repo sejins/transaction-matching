@@ -5,6 +5,9 @@ import com.jingeore.account.Account;
 import com.jingeore.product.Product;
 import com.jingeore.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,15 +34,14 @@ public class MainController {
     }
 
     @GetMapping("/search/product")
-    public String searchProduct(@CurrentUser Account account, String keyword, Model model) {
-        List<Product> productList = productRepository.findByKeyword(keyword);
-        for (Product product : productList) {
-            System.out.println(product.getTitle());
-        }
+    public String searchProduct(@CurrentUser Account account,
+                                @PageableDefault(size = 6, page = 0) Pageable pageable,
+                                String keyword, Model model) {
+        Page<Product> productPage = productRepository.findByKeyword(keyword, pageable);
         if (account != null) {
             model.addAttribute(account);
         }
-        model.addAttribute("productList", productList);
+        model.addAttribute("productPage", productPage);
         model.addAttribute("keyword", keyword);
         return "search";
     }
