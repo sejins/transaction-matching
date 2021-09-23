@@ -2,12 +2,21 @@ package com.jingeore.main;
 
 import com.jingeore.account.CurrentUser;
 import com.jingeore.account.Account;
+import com.jingeore.product.Product;
+import com.jingeore.product.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
+@RequiredArgsConstructor
 public class MainController {
+
+    private final ProductRepository productRepository;
+
     @GetMapping("/")
     public String indexView(Model model, @CurrentUser Account account){
         if(account!=null){
@@ -19,5 +28,13 @@ public class MainController {
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+
+    @GetMapping("/search/product")
+    public String searchProduct(String keyword, Model model) {
+        keyword = "테스트";
+        List<Product> productList = productRepository.findByKeyword(keyword);
+        System.out.println(productList.get(0).getTitle());
+        return "redirect:/";
     }
 }
