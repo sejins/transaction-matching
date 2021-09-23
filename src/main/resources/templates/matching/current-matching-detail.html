@@ -12,7 +12,7 @@
       <h1 class="text-center mt-4" th:text="${product.getTitle()}">상품 이름</h1>
       <div class="d-flex justify-content-center">
         <span th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="badge bg-light text-dark fs-3 text-center">매칭중</span>
-        <span th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge bg-light text-dark fs-3 text-center">거래중</span>
+        <span th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge bg-success text-dark fs-3 text-center">거래중</span>
         <span th:if="${product.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge bg-light text-dark fs-3 text-center">거래완료</span>
       </div>
       <img class="rounded mx-auto d-block mt-4" th:src="${product.getImages().get(0).getImagePath()}" alt="" width="550" height="550">
@@ -82,25 +82,18 @@
             </button>
           </form>
         </div>
-
         <div th:if="${myAccount.isMyProduct(product)}">
           <div th:replace="fragments.html :: cancel-matching"></div>
         </div>
-
       </div>
 
-
-
-      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="d-flex justify-content-around mt-5 mb-5">
-        <a href="#" class="text-decoration-none">
+      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING && myAccount.isMyProduct(product)}" class="d-flex justify-content-around mt-5 mb-5">
+        <a th:href="@{'/complete-matching/' + ${product.getId()}}" class="text-decoration-none">
           <h4 class="text-dark">거래 완료</h4>
         </a>
-        <a href="#" class="text-decoration-none">
-          <h4 class="text-dark">거래 취소</h4>
-        </a>
+        <div th:replace="fragments.html :: cancel-matching"></div>
       </div>
     </div>
-
     <div class="col-2 mt-5">
     </div>
   </div>

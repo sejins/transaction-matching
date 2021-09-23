@@ -62,4 +62,9 @@ public class Product {
     public boolean inProgress() {
         return this.status == ProductStatus.MATCHING || this.status == ProductStatus.IN_REQUEST || this.status == ProductStatus.DEALING;
     }
+
+    public void completeMatching() {
+        this.status = ProductStatus.COMPLETE;
+        //this.buyer = null;
+    }
 }

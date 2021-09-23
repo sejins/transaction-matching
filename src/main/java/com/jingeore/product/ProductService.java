@@ -58,7 +58,7 @@ public class ProductService {
         Product product = productRepository.findById(productId).orElseThrow();
         Account buyer = accountRepository.findById(buyerId).orElseThrow();
         product.cancelMatching();
-        buyer.cancelMatching(product);
+        buyer.endMatching(product);
     }
 
     public void requestDealing(Product product) {
@@ -67,5 +67,12 @@ public class ProductService {
 
     public void confirmDealingRequest(Product product) {
         product.setStatus(ProductStatus.DEALING);
+    }
+
+    public void completeMatching(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        Account buyer = accountRepository.findByNickname(product.getBuyer().getNickname());
+        product.completeMatching();
+        buyer.endMatching(product);
     }
 }

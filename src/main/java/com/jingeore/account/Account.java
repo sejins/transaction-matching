@@ -69,7 +69,7 @@ public class Account {
         return  this.favoriteProducts.contains(product);
     }
 
-    public void cancelMatching(Product product) {
+    public void endMatching(Product product) {
         this.matching.remove(product);
     }
 

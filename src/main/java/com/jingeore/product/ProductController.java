@@ -200,4 +200,11 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("message", "거래요청을 수락했습니다.");
         return "redirect:/current-matching/detail/" + productId;
     }
+
+    @GetMapping("/complete-matching/{productId}")
+    public String completeMatching(@CurrentUser Account account, @PathVariable Long productId, RedirectAttributes redirectAttributes) {
+        productService.completeMatching(productId);
+        redirectAttributes.addFlashAttribute("reviewMessage", "여기");
+        return "redirect:/current-matching/sell";
+    }
 }
