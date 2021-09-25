@@ -3,6 +3,8 @@ package com.jingeore.product;
 import com.jingeore.account.Account;
 import com.jingeore.account.AccountRepository;
 import com.jingeore.account.AccountService;
+import com.jingeore.zone.Zone;
+import com.jingeore.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class ProductService {
     private final ModelMapper modelMapper;
     private final AccountService accountService;
     private final AccountRepository accountRepository;
+    private final ZoneRepository zoneRepository;
 
     public Product createNewProduct(Account account, ProductForm productForm) {
         Product newProduct = modelMapper.map(productForm, Product.class);
@@ -27,6 +30,8 @@ public class ProductService {
         newProduct.setRegistrationDate(LocalDateTime.now());
         accountService.addProduct(account, newProduct);
         newProduct.setSeller(account);
+        Zone sellingZone = zoneRepository.findById(productForm.getZoneId()).orElseThrow();
+        newProduct.setZone(sellingZone);
         return productRepository.save(newProduct);
     }
 

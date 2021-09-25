@@ -35,7 +35,9 @@ public class ProductController {
 
     @GetMapping("/new-product")
     public String newProductForm(@CurrentUser Account account, Model model){
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
         model.addAttribute(account);
+        model.addAttribute("myAccount", myAccount);
         model.addAttribute(new ProductForm());
         return "product/form";
     }

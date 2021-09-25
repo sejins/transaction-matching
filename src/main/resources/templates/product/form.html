@@ -21,6 +21,7 @@
         <small class="invalid-feedback">상품(게시글) 이름을 입력하세요.</small>
         <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
       </div>
+      <br>
 
       <div class="form-group">
         <label for="description">상품 설명</label>
@@ -32,6 +33,7 @@
         <small class="invalid-feedback">상품 소개를 입력하세요.</small>
         <small class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</small>
       </div>
+      <br>
 
       <div class="form-group">
         <label for="offerPrice">제시 가격</label>
@@ -43,6 +45,21 @@
         <small class="invalid-feedback">제시 가격을 입력하세요.</small>
         <small class="form-text text-danger" th:if="${#fields.hasErrors('offerPrice')}" th:errors="*{offerPrice}">OfferPrice Error</small>
       </div>
+      <br>
+
+      <div class="form-group">
+        <label for="zone">거래지역</label>
+        <select th:field="*{zoneId}" class="form-select" id="zone" aria-label="Default select">
+          <div th:each="zone: ${myAccount.getZones()}">
+            <option th:value="${zone.getId()}" th:text="${zone.getZoneInfoInKr()}"></option>
+          </div>
+        </select>
+        <small id="zoneHelp" class="form-text text-muted" >
+          거래지역을 선택해주세요. 프로필 상의 활동지역 중 하나를 거래지역으로 선택할 수 있습니다.
+        </small>
+        <small class="invalid-feedback">프로필에서 최소 하나 이상의 지역을 설정해야 거래를 진행할 수 있습니다.</small>
+      </div>
+      <br>
 
       <div class="form-group">
         <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">
