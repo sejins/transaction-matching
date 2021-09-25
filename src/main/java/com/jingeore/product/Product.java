@@ -1,6 +1,7 @@
 package com.jingeore.product;
 
 import com.jingeore.account.Account;
+import com.jingeore.zone.Zone;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,6 +41,9 @@ public class Product {
 
     @ManyToOne
     private Account buyer; // 구매자와는 다대일 관계(양방향 관계)
+
+    @ManyToOne
+    private Zone zone; // 상품의 판매 지역
 
     public String getPriceByWon() {
         DecimalFormat formatter = new DecimalFormat("###,###");
