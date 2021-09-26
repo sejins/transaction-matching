@@ -8,45 +8,53 @@
         <div class="container">
             <div th:replace="fragments.html :: redirect-message"></div>
             <div class="row mt-5 justify-content-center">
-                <div class="col-4">
+                <div class="col-6">
                     <div th:replace="fragments.html :: image-slide (${images.size()})"></div>
                 </div>
-                <div class="col-8">
-                    <div class="row mt-3 justify-content-center">
-                        <div class="col-9 justify-content-center">
-                            <h2 class="text-center" th:text="${product.getTitle()}">Title</h2>
-                            <h4 class="text-center" th:text="${product.getPriceByWon()}"></h4>
-                            <hr/>
-                        </div>
-                        <div class="col-3 px-5 justify-content-center">
-                            <p>판매자 프로필</p></br>
-                            <a th:href="@{'/profile/' + ${product.seller.getNickname()}}" class="text-decoration-none">
-                                <svg class="img-fluid rounded img-thumbnail"
-                                            th:data-jdenticon-value="${product.seller.getNickname()}" width="50" height="50"></svg></br>
-                                <p th:text="${product.seller.getNickname()}"></p>
+            </div>
+            <div class="row mt-4 justify-content-center">
+                <div class="col-6">
+                    <div class="mt-3 d-flex justify-content-between">
+                        <div class="justify-content-center">
+                            <a th:href="@{'/profile/' + ${product.seller.getNickname()}}" class="text-decoration-none d-flex text-decoration-none">
+                                <svg class="img-fluid rounded img-thumbnail me-3"
+                                     th:data-jdenticon-value="${product.seller.getNickname()}" width="40" height="40"></svg>
+                                <p th:text="${product.seller.getNickname()}" class="fs-5 text-dark"></p>
                             </a>
                         </div>
+                        <div>
+                            <span th:text="${product.getZone().getZoneInfoInKr()}"></span>
+                        </div>
                     </div>
-                    <div class="row mt-3 justify-content-center">
-                        <div class="col-9 justify-content-center"><p class="lead text-center" th:text="${product.getDescription()}">content</p></div>
-                        <div class="col-3">  </div>
+                    <hr>
+                    <div class="justify-content-center">
+                        <h2 class="text-center" th:text="${product.getTitle()}">Title</h2>
+                        <p class="text-center lead" th:text="${product.getPriceByWon()}"></p>
+                    </div>
+                    <div class="row mt-4 justify-content-center">
+                        <p class="lead text-center" th:text="${product.getDescription()}">content</p>
                     </div>
                 </div>
             </div>
-            <div class="row mt-5 justify-content-around" th:if="${myAccount.isNotMyProduct(product)}">
-                <hr/>
-                <div class="col-3 mt-3">
-                    <a href="#" th:href="@{'/favorite/' + ${product.getId()}}" th:if="${!myAccount.isFavoriteProduct(product)}">
-                        <button type="button" class="btn btn-secondary"><span class="lead">관심 상품 등록</span></button>
-                    </a>
-                    <a href="#" th:href="@{'/defavorite/' + ${product.getId()}}" th:if="${myAccount.isFavoriteProduct(product)}">
-                        <button type="button" class="btn btn-warning"><span class="lead">관심 상품 해제</span></button>
-                    </a>
-                </div>
-                <div class="col-3 mt-3">
-                    <form th:action="@{'/matching-offer/' + ${product.getId()}}" method="post">
-                        <button type="submit"  class="btn btn-secondary"><span class="lead">매칭 요청</span></button>
-                    </form>
+
+            <div class="row mt-3 justify-content-center" th:if="${myAccount.isNotMyProduct(product)}">
+                <div class="col-6">
+                    <hr>
+                    <div class="d-flex justify-content-between mt-5 mb-5">
+                        <div class="justify-content-center">
+                            <a href="#" th:href="@{'/favorite/' + ${product.getId()}}" th:if="${!myAccount.isFavoriteProduct(product)}">
+                                <button type="button" class="btn btn-secondary"><span class="lead">관심 상품 등록</span></button>
+                            </a>
+                            <a href="#" th:href="@{'/defavorite/' + ${product.getId()}}" th:if="${myAccount.isFavoriteProduct(product)}">
+                                <button type="button" class="btn btn-warning"><span class="lead">관심 상품 해제</span></button>
+                            </a>
+                        </div>
+                        <div class="justify-content-center">
+                            <form th:action="@{'/matching-offer/' + ${product.getId()}}" method="post">
+                                <button type="submit"  class="btn btn-secondary"><span class="lead">매칭 요청</span></button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
