@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        <div th:replace="fragments.html :: cancel-matching" ></div>
+        <div th:replace="fragments.html :: cancel-matching"></div>
       </div>
       <div th:if="${product.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}" class="d-flex justify-content-around mt-5 mb-5">
         <a href="#" th:if="${product.canBeChangedToDealing(myAccount)}" data-bs-toggle="modal" data-bs-target="#requestAlreadySent" class="text-decoration-none">
@@ -92,6 +92,13 @@
           <h4 class="text-dark">거래 완료</h4>
         </a>
         <div th:replace="fragments.html :: cancel-matching"></div>
+      </div>
+
+      <hr class="mt-5">
+      <div class="d-flex justify-content-around mt-5 mb-5">
+        <a th:href="@{'/chatting/' + ${product.getId()}}" class="text-decoration-none">
+          <h4 class="text-dark">채팅으로 거래하기</h4>
+        </a>
       </div>
     </div>
     <div class="col-2 mt-5">

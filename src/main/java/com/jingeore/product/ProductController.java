@@ -209,4 +209,15 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("reviewMessage", "여기");
         return "redirect:/current-matching/sell";
     }
+
+    @GetMapping("/chatting/{productId}")
+    public String chatting(@CurrentUser Account account, @PathVariable Long productId, Model model) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        Product product = productRepository.findById(productId).orElseThrow();
+        model.addAttribute(account);
+        model.addAttribute(myAccount);
+        model.addAttribute(product);
+
+        return "matching/chatting";
+    }
 }
