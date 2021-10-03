@@ -45,4 +45,10 @@ public class MainController {
         model.addAttribute("keyword", keyword);
         return "search";
     }
+
+    @GetMapping("/test")
+    public String test(@CurrentUser Account account, Model model) {
+        model.addAttribute(account);
+        return "test";
+    }
 }
