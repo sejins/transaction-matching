@@ -3,6 +3,8 @@ package com.jingeore.product;
 import com.jingeore.account.Account;
 import com.jingeore.account.AccountRepository;
 import com.jingeore.account.AccountService;
+import com.jingeore.chatting.ChattingMessage;
+import com.jingeore.chatting.ChattingMessageRepository;
 import com.jingeore.zone.Zone;
 import com.jingeore.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class ProductService {
     private final AccountService accountService;
     private final AccountRepository accountRepository;
     private final ZoneRepository zoneRepository;
+    private final ChattingMessageRepository chattingMessageRepository;
 
     public Product createNewProduct(Account account, ProductForm productForm) {
         Product newProduct = modelMapper.map(productForm, Product.class);
@@ -79,5 +82,15 @@ public class ProductService {
         Account buyer = accountRepository.findByNickname(product.getBuyer().getNickname());
         product.completeMatching();
         buyer.endMatching(product);
+    }
+
+    public void saveNewMessage(Product product, Long writerId, String message) {
+        ChattingMessage newMessage = ChattingMessage.builder()
+                .writeTime(LocalDateTime.now())
+                .product(product)
+                .writerId(writerId)
+                .message(message)
+                .build();
+        product.getChattings().add(chattingMessageRepository.save(newMessage));
     }
 }

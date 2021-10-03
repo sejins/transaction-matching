@@ -47,7 +47,7 @@ public class Product {
     @ManyToOne
     private Zone zone; // 상품의 판매 지역
 
-    @OneToMany
+    @OneToMany(mappedBy = "product")
     private List<ChattingMessage> chattings = new ArrayList<>();
 
     public String getPriceByWon() {

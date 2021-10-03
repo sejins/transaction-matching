@@ -215,9 +215,18 @@ public class ProductController {
         Account myAccount = accountRepository.findByNickname(account.getNickname());
         Product product = productRepository.findById(productId).orElseThrow();
         model.addAttribute(account);
-        model.addAttribute(myAccount);
+        model.addAttribute("myAccount", myAccount);
         model.addAttribute(product);
 
+        log.info(product.getChattings().toString());
+
         return "matching/chatting";
+    }
+
+    @PostMapping("/new-message/{productId}/{writerId}")
+    public String sendNewMessage(@CurrentUser Account account, @PathVariable Long productId, @PathVariable Long writerId, @RequestParam("message") String message) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        productService.saveNewMessage(product, writerId, message);
+        return "redirect:/chatting/" + productId;
     }
 }
