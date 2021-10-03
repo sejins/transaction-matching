@@ -1,12 +1,14 @@
 package com.jingeore.product;
 
 import com.jingeore.account.Account;
+import com.jingeore.chatting.ChattingMessage;
 import com.jingeore.zone.Zone;
 import lombok.*;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +46,9 @@ public class Product {
 
     @ManyToOne
     private Zone zone; // 상품의 판매 지역
+
+    @OneToMany
+    private List<ChattingMessage> chattings = new ArrayList<>();
 
     public String getPriceByWon() {
         DecimalFormat formatter = new DecimalFormat("###,###");
