@@ -3,28 +3,133 @@
 <div th:replace="fragments.html :: head"></div>
 <body class="bg-light">
     <div th:replace="fragments.html :: navbar"></div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-sm-10">
-                <div th:each="message : ${product.chattings}">
-                    <p class="lead" th:text="${message.message}"></p>
+    <div class="container py-5 px-4">
+
+        <!--채팅방 상단 -->
+        <div class="row rounded-lg justify-content-center">
+            <div class="col-6 px-0">
+                <div class="px-4 py-5 bg-white">
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{'/current-matching/detail/' + ${product.getId()}}">
+                            <i class="fa fa-light fa-arrow-left fa-lg"></i>
+                        </a>
+                        <div class="d-flex flex-row">
+                            <svg th:if="${myAccount.isMyProduct(product) && #strings.isEmpty(product.buyer?.profileImage)}" th:data-jdenticon-value="${product.buyer.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
+                            <svg th:if="${!myAccount.isMyProduct(product) && #strings.isEmpty(product.seller?.profileImage)}" th:data-jdenticon-value="${product.seller.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
+                            <h4 th:if="${myAccount.isMyProduct(product)}" th:text="${product.buyer.nickname}" class="ms-3"></h4>
+                            <h4 th:if="${!myAccount.isMyProduct(product)}" th:text="${product.seller.nickname}" class="ms-3"></h4>
+                        </div>
+                        <div></div>
+                    </div>
+                    <hr>
+                    <div class="d-flex flex-row ">
+                        <img class="rounded d-block me-5" th:src="${product.getImages().get(0).getImagePath()}" alt="" width="80" height="80"/>
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="d-flex flex-row">
+                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="badge bg-light text-dark fs-6 text-center">매칭중</span>
+                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge bg-success text-dark fs-6 text-center">거래중</span>
+                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge bg-light text-dark fs-6 text-center">거래완료</span>
+                                <p class="mb-0 ms-3" th:text="${product.title}"></p>
+                            </div>
+                            <h5 class="mb-0 mt-2" th:text="${product.getPriceByWon()}"></h5>
+                        </div>
+                    </div>
                     <hr>
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <form class="needs-validation col-sm-10" th:action="@{'/new-message/' + ${product.getId()} + '/' + ${myAccount.getId()}}"  method="post" novalidate>
-                <div class="form-group">
-                    <input type="text" id="message" name="message" class="form-control" placeholder="메시지를 입력하세요." max="255">
+
+        <div class="row rounded-lg justify-content-center">
+            <!-- Chat Box-->
+            <div class="col-6 px-0">
+                <div class="px-4 py-5 chat-box bg-white">
+                    <div th:each="message: ${product.chattings}">
+                        <!-- Sender Message-->
+                        <div th:if="${message.writerId != myAccount.id}">
+                            <h6 th:if="${myAccount.isMyProduct(product)}" th:text="${product.buyer.nickname}"></h6>
+                            <h6 th:if="${!myAccount.isMyProduct(product)}"} th:text="${product.seller.nickname}"></h6>
+                            <div class="media w-100 mb-3 d-flex flex-row">
+                                <div class="media-body ml-3">
+                                    <div class="bg-light rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-muted" th:text="${message.message}"></p>
+                                    </div>
+                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Reciever Message-->
+                        <div th:if="${message.writerId == myAccount.id}">
+                            <div class="media w-100 ml-auto mb-3 d-flex flex-row-reverse">
+                                <div class="media-body">
+                                    <div class="bg-primary rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-white" th:text="${message.message}"></p>
+                                    </div>
+                                    <p class="small text-muted text-end">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">
-                        전송
-                    </button>
+                <div class="px-4 py-5 bg-white">
+                    <hr>
+                    <!-- Typing area -->
+                    <form th:action="@{'/new-message/' + ${product.id} + '/' + ${myAccount.id}}" method="post" class="bg-light">
+                        <div class="input-group">
+                            <input type="text" name="message" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                            <div class="input-group-append">
+                                <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
 </body>
+<style>
+    body {
+        background-color: #999999;
+        min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 5px;
+        background: #f5f5f5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        width: 1em;
+        background-color: #ddd;
+        outline: 1px solid slategrey;
+        border-radius: 1rem;
+    }
+
+    .my-color {
+        background-color: #111111;
+    }
+
+    .text-small {
+        font-size: 0.9rem;
+    }
+
+    .messages-box,
+    .chat-box {
+        height: 510px;
+        overflow-y: scroll;
+    }
+
+    .rounded-lg {
+        border-radius: 0.5rem;
+    }
+
+    input::placeholder {
+        font-size: 0.9rem;
+        color: #999;
+    }
+</style>
 </html>
