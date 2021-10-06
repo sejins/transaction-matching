@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -92,5 +93,9 @@ public class ProductService {
                 .message(message)
                 .build();
         product.getChattings().add(chattingMessageRepository.save(newMessage));
+    }
+
+    public List<ChattingMessage> getAllChatting(Product product) {
+        return product.getChattings();
     }
 }

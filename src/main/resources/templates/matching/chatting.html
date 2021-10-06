@@ -75,7 +75,9 @@
                     <!-- Typing area -->
                     <form id="form" METHOD="post" th:object="${chattingMessageForm}" class="bg-light">
                         <div class="input-group">
-                            <input type="text" th:field="*{message}" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                            <input type="text" id="message" th:field="*{message}" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                            <input type="hidden" th:field="*{productId}" placeholder="Type a message" th:value="${chattingMessageForm.getWriterId()}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                            <input type="hidden" th:field="*{writerId}" placeholder="Type a message" th:value="${chattingMessageForm.getProductId()}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                             <div class="input-group-append">
                                 <button id="messageButton" type="button" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
                             </div>

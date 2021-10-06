@@ -217,18 +217,31 @@ public class ProductController {
         model.addAttribute(account);
         model.addAttribute("myAccount", myAccount);
         model.addAttribute(product);
-        model.addAttribute(new ChattingMessageForm());
-
+        ChattingMessageForm form = new ChattingMessageForm();
+        form.setProductId(productId);
+        form.setWriterId(myAccount.getId());
+        model.addAttribute(form);
+        model.addAttribute("chattings", productService.getAllChatting(product));
         return "matching/chatting";
     }
 
     @PostMapping("/chatting/new-message")
     public String sendNewMessage(@CurrentUser Account account, Model model, ChattingMessageForm chattingMessageForm) {
-        // Product product = productRepository.findById(productId).orElseThrow();
-        // productService.saveNewMessage(product, writerId, message);
+        Product product = productRepository.findById(chattingMessageForm.getProductId()).orElseThrow();
+        Account myAccount = accountRepository.findById(chattingMessageForm.getWriterId()).orElseThrow();
+        Long writerId = chattingMessageForm.getWriterId();
+        String message = chattingMessageForm.getMessage();
+        productService.saveNewMessage(product, writerId, message);
         log.info("+============================================================================================================================");
-        log.info(chattingMessageForm.getMessage());
-        model.addAttribute("chattings", new ArrayList<ChattingMessage>());
+        log.info(message);
+        log.info(product.getId().toString());
+        log.info(writerId.toString());
+        List<ChattingMessage> chattings = productService.getAllChatting(product);
+        log.info(chattings.toString());
+        model.addAttribute("chattings", chattings);
+        model.addAttribute("myAccount", myAccount);
+        model.addAttribute("product", product);
+
         return "matching/chatting :: #list";
     }
 }

@@ -7,6 +7,8 @@ $('#messageButton').on('click', function () {
         cache: false,
         success: function (data) {
             $('#list').replaceWith(data)
+            let input = document.getElementById("message");
+            input.value = '';
         }
     })
 });
