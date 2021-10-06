@@ -42,8 +42,8 @@
         <div class="row rounded-lg justify-content-center">
             <!-- Chat Box-->
             <div class="col-6 px-0">
-                <div class="px-4 py-5 chat-box bg-white">
-                    <div th:each="message: ${product.chattings}">
+                <div id="list" class="px-4 py-5 chat-box bg-white">
+                    <div th:each="message: ${chattings}">
                         <!-- Sender Message-->
                         <div th:if="${message.writerId != myAccount.id}">
                             <h6 th:if="${myAccount.isMyProduct(product)}" th:text="${product.buyer.nickname}"></h6>
@@ -73,11 +73,11 @@
                 <div class="px-4 py-5 bg-white">
                     <hr>
                     <!-- Typing area -->
-                    <form th:action="@{'/new-message/' + ${product.id} + '/' + ${myAccount.id}}" method="post" class="bg-light">
+                    <form id="form" METHOD="post" th:object="${chattingMessageForm}" class="bg-light">
                         <div class="input-group">
-                            <input type="text" name="message" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                            <input type="text" th:field="*{message}" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                             <div class="input-group-append">
-                                <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                <button id="messageButton" type="button" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
                             </div>
                         </div>
                     </form>
@@ -132,4 +132,6 @@
         color: #999;
     }
 </style>
+<script th:replace="fragments.html :: ajax-csrf-header"></script>
+<script th:src="@{/js/chatting.js}"></script>
 </html>

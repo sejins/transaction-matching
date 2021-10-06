@@ -4,19 +4,19 @@ import com.jingeore.account.Account;
 import com.jingeore.account.AccountRepository;
 import com.jingeore.account.AccountService;
 import com.jingeore.account.CurrentUser;
+import com.jingeore.chatting.ChattingMessage;
+import com.jingeore.chatting.ChattingMessageForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -217,16 +217,18 @@ public class ProductController {
         model.addAttribute(account);
         model.addAttribute("myAccount", myAccount);
         model.addAttribute(product);
-
-        log.info(product.getChattings().toString());
+        model.addAttribute(new ChattingMessageForm());
 
         return "matching/chatting";
     }
 
-    @PostMapping("/new-message/{productId}/{writerId}")
-    public String sendNewMessage(@CurrentUser Account account, @PathVariable Long productId, @PathVariable Long writerId, @RequestParam("message") String message) {
-        Product product = productRepository.findById(productId).orElseThrow();
-        productService.saveNewMessage(product, writerId, message);
-        return "redirect:/chatting/" + productId;
+    @PostMapping("/chatting/new-message")
+    public String sendNewMessage(@CurrentUser Account account, Model model, ChattingMessageForm chattingMessageForm) {
+        // Product product = productRepository.findById(productId).orElseThrow();
+        // productService.saveNewMessage(product, writerId, message);
+        log.info("+============================================================================================================================");
+        log.info(chattingMessageForm.getMessage());
+        model.addAttribute("chattings", new ArrayList<ChattingMessage>());
+        return "matching/chatting :: #list";
     }
 }

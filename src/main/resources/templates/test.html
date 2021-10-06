@@ -2,177 +2,61 @@
 <html lang="en">
 <div th:replace="fragments.html :: head"></div>
 <body class="bg-light">
-    <div th:replace="fragments.html :: navbar"></div>
-    <div class="container py-5 px-4">
+<h3>AJAX 사용</h3>
+<p>책 정보 입력</p>
+<div>
+  <form id="form" th:object="${book}">
+    <table border=1>
+      <tr>
+        <td>책제목</td>
+        <td>
+          <input type="text" th:field="*{title}" placeholder="책 제목을 입력하세요">
+        </td>
+      </tr>
+      <tr>
+        <td>저자명</td>
+        <td>
+          <input type="text" th:field="*{creator}" placeholder="저자명을 입력하세요">
+        </td>
+      </tr>
+      <tr>
+        <td>출판사</td>
+        <td>
+          <input type="text" id="publisher" name="publisher"  placeholder="출판사명을 입력하세요">
+        </td>
+      </tr>
+      <tr>
+        <td>출판연도</td>
+        <td>
+          <input type="text" th:field="*{publishedYear}">
+        </td>
+      </tr>
+    </table>
+    <button type="button" onclick="inputData(this)" >입력</button>
+  </form>
+</div>
 
-      <div class="row rounded-lg justify-content-center">
-        <div class="col-6 px-0">
-          <div class="px-4 py-5 bg-white">
-            <div class="d-flex justify-content-between">
-              <a href="#">
-                <i class="fa fa-light fa-arrow-left fa-lg"></i>
-              </a>
-              <p class="text-center">상대방 정보</p>
-              <div></div>
-            </div>
-            <hr>
-            <div class="justify-content-center d-flex flex-column">
-              <div class="d-flex flex-row">
-                <span>판매중</span>
-                <p>상품 이름</p>
-              </div>
-              <h6>20,000원</h6>
-              <hr>
-            </div>
-          </div>
-        </div>
-      </div>
+<div id="list">
+  <th:block th:if="${bookMap != null}">
+    <h3>책 목록</h3>
+    <table border=1>
+      <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>저자</th>
+        <th>출판사</th>
+        <th>출판연도</th>
+      </tr>
+      <tr th:each="entry : ${bookMap}" th:with="book=${entry.value}">
+        <td th:text="${book.seq}"></td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.creator}"></td>
+        <td th:text="${book.publisher}"></td>
+        <td th:text="${book.publishedYear}"></td>
+      </tr>
+    </table>
+  </th:block>
+</div>
 
-      <div class="row rounded-lg justify-content-center">
-        <!-- Chat Box-->
-        <div class="col-6 px-0">
-          <div class="px-4 py-5 chat-box bg-white">
-            <!-- Sender Message-->
-            <h6>nickname</h6>
-            <div class="media w-100 mb-3 d-flex flex-row">
-              <div class="media-body ml-3">
-                <div class="bg-light rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-muted">Test which is a nefasdfasdfasdxdsfasdfasfasfasdfasdfasdffasdfasdfasdfasdfasdfasdfasdfaw approach all solutions</p>
-                </div>
-                <p class="small text-muted">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-            <!-- Reciever Message-->
-            <div class="media w-100 ml-auto mb-3 d-flex flex-row-reverse">
-              <div class="media-body">
-                <div class="bg-primary rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-white">Test which isasdfasdfasdfasdfasdfadsadsf a new approach to have all solutions</p>
-                </div>
-                <p class="small text-muted text-end">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-            <!-- Sender Message-->
-            <img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-            <div class="media w-100 mb-3 d-flex flex-row">
-              <div class="media-body ml-3">
-                <div class="bg-light rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-muted">Test which is a nefasdfasdfasdxdsfasdfasfasfasdfasdfasdffasdfasdfasdfasdfasdfasdfasdfaw approach all solutions</p>
-                </div>
-                <p class="small text-muted">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-            <!-- Reciever Message-->
-            <div class="media w-100 ml-auto mb-3 d-flex flex-row-reverse">
-              <div class="media-body">
-                <div class="bg-primary rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-white">Test which isasdfasdfasdfasdfasdfadsadsf a new approach to have all solutions</p>
-                </div>
-                <p class="small text-muted text-end">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-            <!-- Sender Message-->
-            <img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-            <div class="media w-100 mb-3 d-flex flex-row">
-              <div class="media-body ml-3">
-                <div class="bg-light rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-muted">Test which is a nefasdfasdfasdxdsfasdfasfasfasdfasdfasdffasdfasdfasdfasdfasdfasdfasdfaw approach all solutions</p>
-                </div>
-                <p class="small text-muted">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-            <!-- Reciever Message-->
-            <div class="media w-100 ml-auto mb-3 d-flex flex-row-reverse">
-              <div class="media-body">
-                <div class="bg-primary rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-white">Test which isasdfasdfasdfasdfasdfadsadsf a new approach to have all solutions</p>
-                </div>
-                <p class="small text-muted text-end">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-            <!-- Sender Message-->
-            <img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-            <div class="media w-100 mb-3 d-flex flex-row">
-              <div class="media-body ml-3">
-                <div class="bg-light rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-muted">Test which is a nefasdfasdfasdxdsfasdfasfasfasdfasdfasdffasdfasdfasdfasdfasdfasdfasdfaw approach all solutions</p>
-                </div>
-                <p class="small text-muted">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-            <!-- Reciever Message-->
-            <div class="media w-100 ml-auto mb-3 d-flex flex-row-reverse">
-              <div class="media-body">
-                <div class="bg-primary rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-white">Test which isasdfasdfasdfasdfasdfadsadsf a new approach to have all solutions</p>
-                </div>
-                <p class="small text-muted text-end">12:00 PM | Aug 13</p>
-              </div>
-            </div>
-
-
-          <!-- Typing area -->
-          <form action="#" class="bg-light">
-            <div class="input-group">
-              <input type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
-              <div class="input-group-append">
-                <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
 </body>
-<style>
-  body {
-    background-color: #999999;
-    min-height: 100vh;
-  }
-
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  ::-webkit-scrollbar-track {
-    width: 5px;
-    background: #f5f5f5;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    width: 1em;
-    background-color: #ddd;
-    outline: 1px solid slategrey;
-    border-radius: 1rem;
-  }
-
-  .my-color {
-    background-color: #111111;
-  }
-
-  .text-small {
-    font-size: 0.9rem;
-  }
-
-  .messages-box,
-  .chat-box {
-    height: 510px;
-    overflow-y: scroll;
-  }
-
-  .rounded-lg {
-    border-radius: 0.5rem;
-  }
-
-  input::placeholder {
-    font-size: 0.9rem;
-    color: #999;
-  }
-</style>
 </html>
