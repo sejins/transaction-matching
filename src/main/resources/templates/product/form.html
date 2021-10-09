@@ -49,7 +49,7 @@
 
       <div class="form-group">
         <label for="zone">거래지역</label>
-        <selec t th:field="*{zoneId}" class="form-select" id="zone" aria-label="Default select">
+        <select th:field="*{zoneId}" class="form-select" id="zone" aria-label="Default select">
           <div th:each="zone: ${myAccount.getZones()}">
             <option th:value="${zone.getId()}" th:text="${zone.getZoneInfoInKr()}"></option>
           </div>

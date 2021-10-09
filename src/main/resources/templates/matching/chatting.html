@@ -75,7 +75,7 @@
                 <div class="px-4 py-5 bg-white">
                     <hr>
                     <!-- Typing area -->
-                    <form id="form" METHOD="post" th:object="${chattingMessageForm}" class="bg-light">
+                    <form id="form" METHOD="post" th:object="${chattingMessageForm}" class="bg-light" onsubmit="return false">
                         <div class="input-group">
                             <input type="text" id="message" th:field="*{message}" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                             <input type="hidden" th:field="*{productId}" placeholder="Type a message" th:value="${chattingMessageForm.getWriterId()}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">

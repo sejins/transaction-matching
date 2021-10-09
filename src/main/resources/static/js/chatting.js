@@ -1,4 +1,11 @@
-$('#messageButton').on('click', function () {
+$('#messageButton').on('click', sendMessage);
+$('#message').on('keydown', function (key) {
+    if (key.keyCode == 13) {
+        sendMessage()
+    }
+});
+
+function sendMessage() {
     var form = $('#form').serialize()
     $.ajax({
         url: "new-message",
@@ -13,7 +20,7 @@ $('#messageButton').on('click', function () {
             listDiv.scrollTop = listDiv.scrollHeight;
         }
     })
-});
+}
 
 $('#list').scrollTop($('#list')[0].scrollHeight)
 
