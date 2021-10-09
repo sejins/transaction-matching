@@ -28,37 +28,33 @@
           <p th:text="${product.seller.getNickname() }" class="h4 text-center text-dark ps-4"></p>
         </a>
       </div>
-      <div>
-        <a th:href="@{'/product/' + ${product.getId()}}" class="iconColor"> 상품정보 바로가기</a>
-      </div>
       <hr class="mt-5">
+      <div class="d-flex flex-row justify-content-around mt-3">
+        <a th:href="@{'/product/' + ${product.getId()}}" class="iconColor mt-2"> 상품정보 바로가기</a>
+        <a th:href="@{'/chatting/' + ${product.getId()}}" class="text-decoration-none">
+          <button type="button" class="btn info text-white">채팅으로 거래하기</button>
+        </a>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+    <div class="col-2 mt-5">
+    </div>
+  </div>
 
-      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="d-flex justify-content-evenly mt-5 mb-5">
+  <div class="row justify-content-center fixed-bottom">
+    <div class="col-2 mt-5">
+    </div>
+    <div class="col-6 mt-5 bottomMenu d-flex flex-column justify-content-center">
+      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="d-flex justify-content-evenly ">
         <a href="#" data-bs-toggle="modal" data-bs-target="#requestDealing" th:if="${product.canBeChangedToDealing(myAccount)}" class="text-decoration-none">
           <button type="button" class="btn info text-white">거래 요청</button>
         </a>
-        <div class="modal fade" id="requestDealing" tabindex="-1" role="dialog" aria-labelledby="requestDealingLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="requestDealingLabel">거래 요청</h4>
-              </div>
-              <div class="modal-body">
-                <span>거래 요청을 하시겠습니까?</span><br>
-                <span>상품이 거래 상태로 넘어가게 되면 더이상 거래를 취소할 수 없게 됩니다. 거래 세부사항이 확실하게 결정되면 진행해주세요. 상대와 합의없이 거래를 진행하지 않는 경우에는 <b>패널티</b>가 부여될 수 있습니다.</span>
-              </div>
-              <div class="modal-footer">
-                <a href="#" data-bs-dismiss="modal" class="text-decoration-none text-dark">취소</a>
-                <form th:action="@{'/request-dealing/' + ${product.getId()}}" method="post">
-                  <button type="submit" class="btn btn-link text-decoration-none text-dark">확인</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
         <div th:replace="fragments.html :: cancel-matching"></div>
       </div>
-      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}" class="d-flex justify-content-around mt-5 mb-5">
+      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}" class="d-flex justify-content-around ">
         <a href="#" th:if="${product.canBeChangedToDealing(myAccount)}" data-bs-toggle="modal" data-bs-target="#requestAlreadySent" class="text-decoration-none">
           <h5 class="text-secondary">거래 요청 전송함</h5>
         </a>
@@ -89,21 +85,55 @@
         </div>
       </div>
 
-      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING && myAccount.isMyProduct(product)}" class="d-flex justify-content-around mt-5 mb-5">
+      <div th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING && myAccount.isMyProduct(product)}" class="d-flex justify-content-around">
         <a th:href="@{'/complete-matching/' + ${product.getId()}}" class="text-decoration-none">
           <button type="submit" class="btn info text-white">거래 완료</button>
         </a>
         <div th:replace="fragments.html :: cancel-matching"></div>
       </div>
-
-      <hr class="mt-5">
-      <div class="d-flex justify-content-around mt-5 mb-5">
-        <a th:href="@{'/chatting/' + ${product.getId()}}" class="text-decoration-none">
-          <h4 class="text-dark">채팅으로 거래하기</h4>
-        </a>
-      </div>
     </div>
     <div class="col-2 mt-5">
+    </div>
+  </div>
+  <!-- 거래완료 토글 -->
+  <div class="modal fade" id="requestDealing" tabindex="-1" role="dialog" aria-labelledby="requestDealingLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="requestDealingLabel">거래 요청</h4>
+        </div>
+        <div class="modal-body">
+          <span>거래 요청을 하시겠습니까?</span><br>
+          <span>상품이 거래 상태로 넘어가게 되면 더이상 거래를 취소할 수 없게 됩니다. 거래 세부사항이 확실하게 결정되면 진행해주세요. 상대와 합의없이 거래를 진행하지 않는 경우에는 <b>패널티</b>가 부여될 수 있습니다.</span>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-bs-dismiss="modal" class="text-decoration-none text-dark">취소</a>
+          <form th:action="@{'/request-dealing/' + ${product.getId()}}" method="post">
+            <button type="submit" class="btn btn-link text-decoration-none text-dark">확인</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 매칭 취소 토글 -->
+  <div class="modal fade" id="cancelMatching" tabindex="-1" role="dialog" aria-labelledby="cancelMatchingLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="cancelMatchingLabel">매칭 취소</h4>
+        </div>
+        <div class="modal-body">
+          <span>현재 진행중인 매칭을 취소하시겠습니까?</span><br>
+          <span>상대방과 상의하지 않은 일방적인 취소 행위에는 <b>패널티</b>가 부여될 수 있습니다.</span>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-bs-dismiss="modal" class="text-decoration-none text-dark">취소</a>
+          <form th:action="@{'/cancel-matching/' + ${product.getId()} + '/' + ${product.buyer.getId()}}" method="post">
+            <button type="submit" class="btn btn-link text-decoration-none text-dark">확인</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
