@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +97,14 @@ public class ProductService {
     }
 
     public List<ChattingMessage> getAllChatting(Product product) {
-        return product.getChattings();
+
+        List<ChattingMessage> chattingList = product.getChattings();
+        chattingList.sort(new Comparator<ChattingMessage>() {
+            @Override
+            public int compare(ChattingMessage o1, ChattingMessage o2) {
+                return o1.getWriteTime().compareTo(o2.getWriteTime());
+            }
+        });
+        return chattingList;
     }
 }
