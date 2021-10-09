@@ -22,7 +22,7 @@
       margin: 0;
     }
 
-    nav {
+    .myNavbar {
       background-color: #81C784;
     }
 
@@ -48,10 +48,15 @@
     .chattingMessageColor {
       background-color: #F0F4C3;
     }
+
+    .bottomMenu {
+      background-color: #C5E1A5;
+      height: 55px;
+    }
   </style>
 </head>
 
-<nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark">
+<nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark myNavbar">
   <a class="navbar-brand" href="/" th:href="@{/}">
     <!-- <img src="/images/angFlower.png" width="30" height="30"> -->
     <a class="navbar-brand" th:href="@{/}">Logo</a>

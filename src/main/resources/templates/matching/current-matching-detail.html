@@ -28,6 +28,9 @@
           <p th:text="${product.seller.getNickname() }" class="h4 text-center text-dark ps-4"></p>
         </a>
       </div>
+      <div>
+        <a th:href="@{'/product/' + ${product.getId()}}" class="iconColor"> 상품정보 바로가기</a>
+      </div>
       <hr class="mt-5">
 
       <div th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="d-flex justify-content-evenly mt-5 mb-5">
