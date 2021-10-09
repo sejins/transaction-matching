@@ -16,8 +16,8 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
               <img th:src="${sellingProduct.getImages().get(0).getImagePath()}" alt="" width="65" height="65">
               <p th:text="${sellingProduct.getTitle()}" class="lead text-center mb-0"></p>
-              <span th:if="${sellingProduct.getBuyerOffers().size() != 0}" class="badge bg-primary badge-pill" th:text="${sellingProduct.getBuyerOffers().size()}"></span>
-              <span th:if="${sellingProduct.getBuyerOffers().size() == 0}" class="badge bg-primary badge-pill invisible">0</span>
+              <span th:if="${sellingProduct.getBuyerOffers().size() != 0}" class="badge info badge-pill" th:text="${sellingProduct.getBuyerOffers().size()}"></span>
+              <span th:if="${sellingProduct.getBuyerOffers().size() == 0}" class="badge  badge-pill invisible">0</span>
           </li>
           </a>
         </ul>

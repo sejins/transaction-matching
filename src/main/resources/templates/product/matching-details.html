@@ -18,10 +18,10 @@
                 </div>
                 <div style="width: 150px" class="d-flex justify-content-between align-items-center">
                     <a th:href="@{'/confirm-matching-offer/' + ${product.getId()} + '/' + ${offeror.getId()}}">
-                        <button type="button" class="btn btn-primary">수락</button>
+                        <button type="button" class="btn info text-white">수락</button>
                     </a>
                     <a th:href="@{'/cancel-matching-offer/' + ${product.getId()} + '/' + ${offeror.getId()}}" >
-                        <button type="button" class="btn btn-primary">거절</button>
+                        <button type="button" class="btn negative">거절</button>
                     </a>
                 </div>
             </li>

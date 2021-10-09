@@ -49,7 +49,7 @@
 
       <div class="form-group">
         <label for="zone">거래지역</label>
-        <select th:field="*{zoneId}" class="form-select" id="zone" aria-label="Default select">
+        <selec t th:field="*{zoneId}" class="form-select" id="zone" aria-label="Default select">
           <div th:each="zone: ${myAccount.getZones()}">
             <option th:value="${zone.getId()}" th:text="${zone.getZoneInfoInKr()}"></option>
           </div>
@@ -62,7 +62,7 @@
       <br>
 
       <div class="form-group">
-        <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">
+        <button class="btn info text-white btn-block" type="submit" aria-describedby="submitHelp">
           상품 등록
         </button>
       </div>

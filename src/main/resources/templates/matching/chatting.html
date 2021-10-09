@@ -11,7 +11,7 @@
                 <div class="px-4 py-5 bg-white">
                     <div class="d-flex justify-content-between">
                         <a th:href="@{'/current-matching/detail/' + ${product.getId()}}">
-                            <i class="fa fa-light fa-arrow-left fa-lg"></i>
+                            <i class="fa fa-light fa-arrow-left fa-lg iconColor"></i>
                         </a>
                         <div class="d-flex flex-row">
                             <svg th:if="${myAccount.isMyProduct(product) && #strings.isEmpty(product.buyer?.profileImage)}" th:data-jdenticon-value="${product.buyer.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
@@ -26,9 +26,10 @@
                         <img class="rounded d-block me-5" th:src="${product.getImages().get(0).getImagePath()}" alt="" width="80" height="80"/>
                         <div class="d-flex flex-column justify-content-center">
                             <div class="d-flex flex-row">
-                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="badge bg-light text-dark fs-6 text-center">매칭중</span>
-                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge bg-success text-dark fs-6 text-center">거래중</span>
-                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge bg-light text-dark fs-6 text-center">거래완료</span>
+                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).MATCHING || product.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}"
+                                      class="badge angpengColor text-white fs-6 text-center">매칭중</span>
+                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge angpengColor text-white fs-6 text-center">거래중</span>
+                                <span th:if="${product.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge angpengColor text-white fs-6 text-center">거래완료</span>
                                 <p class="mb-0 ms-3" th:text="${product.title}"></p>
                             </div>
                             <h5 class="mb-0 mt-2" th:text="${product.getPriceByWon()}"></h5>
@@ -62,8 +63,8 @@
                         <div th:if="${message.writerId == myAccount.id}">
                             <div class="media w-100 ml-auto mb-3 d-flex flex-row-reverse">
                                 <div class="media-body">
-                                    <div class="bg-primary rounded py-2 px-3 mb-2">
-                                        <p class="text-small mb-0 text-white" th:text="${message.message}"></p>
+                                    <div class="chattingMessageColor rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-dark" th:text="${message.message}"></p>
                                     </div>
                                     <p class="small text-muted text-end" th:text="${message.change()}">12:00 PM | Aug 13</p>
                                 </div>
@@ -80,7 +81,7 @@
                             <input type="hidden" th:field="*{productId}" placeholder="Type a message" th:value="${chattingMessageForm.getWriterId()}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                             <input type="hidden" th:field="*{writerId}" placeholder="Type a message" th:value="${chattingMessageForm.getProductId()}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                             <div class="input-group-append">
-                                <button id="messageButton" type="button" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                <button id="messageButton" type="button" class="btn btn-link pt-3"> <i class="fa fa-paper-plane iconColor"></i></button>
                             </div>
                         </div>
                     </form>

@@ -5,18 +5,23 @@
     <div th:replace="fragments.html :: navbar"></div>
     <div class="container">
         <div th:replace="fragments.html :: review-message"></div>
+        <div class="py-5 text-center">
+            <h2 class="text-center" >진행중인 매칭</h2>
+        </div>
+
         <div class="row mt-5 justify-content-center">
-            <h1 class="mt-5 text-center" >진행중인 매칭</h1>
-            <div class="col-2 mt-5">
+            <div class="col-2">
                 <div th:replace="fragments.html :: current-matching-menu (currentMenu='sell')"></div>
             </div>
 
-            <div class="col-5 mt-5 mx-5">
+            <div class="col-5 mx-5">
                 <div class="row">
                     <h2 th:if="${myAccount.sellingProducts.size() == 0}" class="text-center"> 현재 진행중인 매칭이 없습니다.</h2>
                     <ul class="list-group list-group-flush" th:each="sellingProduct: ${myAccount.getSellingProducts()}">
                             <li th:if="${sellingProduct.inProgress()}" class=" list-group-item d-flex flex-column justify-content-center text-decoration-none">
-                                <p th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}" class="lead text-center text-white bg-primary">거래요청을 수락하여 거래를 진행하세요.</p>
+                                <p th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}" class="lead text-center text-white info">
+                                    거래요청을 수락하여 거래를 진행하세요.
+                                </p>
                                 <a th:href="@{'/current-matching/detail/' + ${sellingProduct.getId()}}" href="#" class="text-decoration-none pt-3" >
                                     <img class="rounded mx-auto d-block" th:src="${sellingProduct.getImages().get(0).getImagePath()}" alt="" width="450" height="450">
                                 </a>
@@ -27,9 +32,10 @@
                                             <svg th:if="${#strings.isEmpty(sellingProduct.buyer?.profileImage)}" th:data-jdenticon-value="${sellingProduct.buyer.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
                                             <p th:text="${sellingProduct.buyer.getNickname() }" class="h4 text-center mb-0 text-dark ps-4"></p>
                                         </span>
-                                        <span th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).MATCHING}" class="badge rounded-pill bg-light text-dark fs-6">매칭중</span>
-                                        <span th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge rounded-pill bg-light text-dark fs-6">거래중</span>
-                                        <span th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge rounded-pill bg-light text-dark fs-6">거래완료</span>
+                                        <span th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).MATCHING || sellingProduct.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}"
+                                              class="badge rounded-pill angpengColor text-white fs-6">매칭중</span>
+                                        <span th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge rounded-pill angpengColor text-white fs-6">거래중</span>
+                                        <span th:if="${sellingProduct.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge rounded-pill angpengColor text-white fs-6">거래완료</span>
                                     </div>
                                 </div>
                             </li>

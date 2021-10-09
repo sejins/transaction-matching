@@ -21,10 +21,37 @@
       padding: 0;
       margin: 0;
     }
+
+    nav {
+      background-color: #81C784;
+    }
+
+    .myActive {
+      background-color: #81C784;
+    }
+
+    .angpengColor {
+      background-color: #C5E1A5;
+    }
+
+    .info {
+      background-color: #66BB6A;
+    }
+    .negative {
+      background-color: #EEEEEE;
+    }
+
+    .iconColor {
+      color: #66BB6A;
+    }
+
+    .chattingMessageColor {
+      background-color: #F0F4C3;
+    }
   </style>
 </head>
 
-<nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark">
   <a class="navbar-brand" href="/" th:href="@{/}">
     <!-- <img src="/images/angFlower.png" width="30" height="30"> -->
     <a class="navbar-brand" th:href="@{/}">Logo</a>
@@ -47,7 +74,7 @@
         <a class="nav-link" href="#" th:href="@{/sign-up}">가입</a>
       </li>
       <li class="nav-item" sec:authorize="isAuthenticated()">
-        <a class="nav-link btn btn-outline-primary"   href="#" th:href="@{/new-product}">
+        <a class="nav-link text-white"   href="#" th:href="@{/new-product}">
           <i class="fa fa-plus"></i>  판매 상품 등록
         </a>
       </li>
@@ -75,10 +102,10 @@
 
 <!-- 프로필 수정 좌측 메뉴바 -->
 <div th:fragment="settings-menu (currentMenu)" class="list-group">
-  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'}? active" th:href="@{/settings/nickname}">닉네임 수정</a>
-  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'}? active" th:href="@{/settings/password}">패스워드 수정</a>
-  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'zones'}? active" th:href="@{/settings/zones}">지역정보 수정</a>
-  <a href="#" class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profileImage'}? active" th:href="@{/settings/profileImage}">프로필 이미지 수정</a>
+  <a href="#" class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'profile'}? myActive" th:href="@{/settings/nickname}">닉네임 수정</a>
+  <a href="#" class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'password'}? myActive" th:href="@{/settings/password}">패스워드 수정</a>
+  <a href="#" class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'zones'}? myActive" th:href="@{/settings/zones}">지역정보 수정</a>
+  <a href="#" class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'profileImage'}? myActive" th:href="@{/settings/profileImage}">프로필 이미지 수정</a>
 </div>
 
 <!-- 리다이랙션 메시지 -->
@@ -237,7 +264,7 @@
 
 <div th:fragment="cancel-matching">
   <a href="#" data-bs-toggle="modal" data-bs-target="#cancelMatching" class="text-decoration-none">
-    <h4 class="text-danger" data-toggle="modal" data-target="#cancelMatching">매칭 취소</h4>
+    <button type="button" class="btn negative">매칭 취소</button>
   </a>
   <div class="modal fade" id="cancelMatching" tabindex="-1" role="dialog" aria-labelledby="cancelMatchingLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -262,8 +289,8 @@
 
 
 <div th:fragment="current-matching-menu (currentMenu)" class="list-group">
-  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'buy'}? active" href="#" th:href="@{/current-matching/buy}">구매</a>
-  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'sell'}? active" href="#" th:href="@{/current-matching/sell}">판매</a>
+  <a class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'buy'}? myActive" href="#" th:href="@{/current-matching/buy}">구매</a>
+  <a class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'sell'}? myActive" href="#" th:href="@{/current-matching/sell}">판매</a>
 </div>
 
 </html>

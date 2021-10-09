@@ -12,10 +12,10 @@
       <div class="col-4 px-5">
         <h1 class="pt-3" th:text="${profileAccount.getNickname()}">nickname</h1>
 <!--        <p class="lead pt-3">활동 지역</p>-->
-        <span th:each="zone: ${profileAccount.getZones()}">
-          <span th:text="${zone.getZoneInfoInKr()}" class="badge bg-dark text-white fs-6"></span>
+        <div th:each="zone: ${profileAccount.getZones()}" class="pt-3 d-flex flex-row">
+          <span th:text="${zone.getZoneInfoInKr()}" class="badge text-white fs-6 angpengColor"></span>
 <!--          <span class="badge badge-dark" th:text="${zone.getZoneInfoInKr()}"></span>-->
-        </span>
+        </div>
       </div>
       <div class="col-4">
         <div class="pt-4"><span class="lead">구매 평점</span><span class="px-3" th:text="${profileAccount.getBuyingMannerScore()}"></span></div>
@@ -23,22 +23,22 @@
       </div>
     </div>
     </div>
-    <div class="row mt-5 justify-content-center">
-      <div class="col-4">
-        <div class="pt-4 px-5" th:if="${itsMyProfile}">
-          <a href="#" th:href="@{/transactions}">
-            <button type="button" class="btn btn-primary"><span class="lead">진행중인 거래</span></button>
-          </a>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="pt-4 px-5" th:if="${itsMyProfile}">
-          <a href="#" th:href="@{/in-selling}">
-            <button type="button" class="btn btn-primary"><span class="lead">판매중인 상품</span></button>
-          </a>
-        </div>
-      </div>
-    </div>
+<!--    <div class="row mt-5 justify-content-center">-->
+<!--      <div class="col-4">-->
+<!--        <div class="pt-4 px-5" th:if="${itsMyProfile}">-->
+<!--          <a href="#" th:href="@{/transactions}">-->
+<!--            <button type="button" class="btn btn-primary"><span class="lead">진행중인 거래</span></button>-->
+<!--          </a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-4">-->
+<!--        <div class="pt-4 px-5" th:if="${itsMyProfile}">-->
+<!--          <a href="#" th:href="@{/in-selling}">-->
+<!--            <button type="button" class="btn btn-primary"><span class="lead">판매중인 상품</span></button>-->
+<!--          </a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </body>
 </html>
