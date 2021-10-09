@@ -26,13 +26,38 @@
                             <span th:text="${product.getZone().getZoneInfoInKr()}"></span>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="mb-4">
                     <div class="justify-content-center">
                         <h2 class="text-center" th:text="${product.getTitle()}">Title</h2>
                         <p class="text-center lead" th:text="${product.getPriceByWon()}"></p>
                     </div>
                     <div class="row mt-4 justify-content-center">
                         <p class="lead text-center" th:text="${product.getDescription()}">content</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-4 justify-content-center">
+                <div class="col-6">
+                    <hr class="mt-4 mb-4">
+                    <p class="text-center"> <span th:text="${product.seller.nickname}"></span>님의 판매 상품</p>
+                    <div class="row justify-content-center">
+                        <div class="col-6 myDiv" th:each="anotherProduct: ${product.seller.sellingProducts}"
+                             th:if="${anotherProduct.id != product.id && anotherProduct.status == T(com.jingeore.product.ProductStatus).NONE}">
+                            <div class="card">
+                                <a th:href="@{'/product/' + ${anotherProduct.id}}" class="text-decoration-none">
+                                    <img th:src="${anotherProduct.images.get(0).getImagePath()}" alt="test" class="context card-img-top myImg">
+                                    <div>
+                                        <div class="card-body">
+                                            <h5 class="card-text text-dark text-center font-weight-bold" th:text="${anotherProduct.title}"></h5>
+                                            <p class="card-text text-dark text-center" th:text="${anotherProduct.getPriceByWon()}"></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <br>
+                        </div>
                     </div>
                 </div>
             </div>

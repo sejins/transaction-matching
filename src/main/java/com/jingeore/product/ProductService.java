@@ -87,6 +87,8 @@ public class ProductService {
     }
 
     public void saveNewMessage(Product product, Long writerId, String message) {
+        if (message.equals("")) return;
+
         ChattingMessage newMessage = ChattingMessage.builder()
                 .writeTime(LocalDateTime.now())
                 .product(product)

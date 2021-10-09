@@ -30,9 +30,9 @@
                                 <div class="d-flex justify-content-between">
                                     <p class="card-text text-dark" th:text="${product.getDescription()}">Short description</p>
                                     <span class="d-flex align-baseline">
-                                    <svg th:if="${#strings.isEmpty(product.seller?.profileImage)}" th:data-jdenticon-value="${product.seller.getNickname()}" width="24+" height="24" class="rounded border bg-light align-center"></svg>
-                                    <p th:text="${product.seller.getNickname() }" class="h5 text-center text-dark ps-1 mb-2"></p>
-                                </span>
+                                        <svg th:if="${#strings.isEmpty(product.seller?.profileImage)}" th:data-jdenticon-value="${product.seller.getNickname()}" width="24" height="24" class="rounded border bg-light align-center"></svg>
+                                        <p th:text="${product.seller.getNickname() }" class="h5 text-center text-dark ps-1 mb-2"></p>
+                                    </span>
                                 </div>
                             </div>
                         </a>

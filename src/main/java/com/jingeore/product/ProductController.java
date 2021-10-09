@@ -232,12 +232,7 @@ public class ProductController {
         Long writerId = chattingMessageForm.getWriterId();
         String message = chattingMessageForm.getMessage();
         productService.saveNewMessage(product, writerId, message);
-        log.info("+============================================================================================================================");
-        log.info(message);
-        log.info(product.getId().toString());
-        log.info(writerId.toString());
         List<ChattingMessage> chattings = productService.getAllChatting(product);
-        log.info(chattings.toString());
         model.addAttribute("chattings", chattings);
         model.addAttribute("myAccount", myAccount);
         model.addAttribute("product", product);

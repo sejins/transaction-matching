@@ -57,6 +57,17 @@
     .containerTop {
       margin-top: 60px;
     }
+
+    .myImg {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .myDiv {
+      width: 40%;
+      height: auto;
+    }
   </style>
 </head>
 
@@ -103,7 +114,7 @@
           <svg th:if="${#strings.isEmpty(account?.profileImage)}" th:data-jdenticon-value="${account.getNickname()}" width="24" height="24" class="rounded border bg-light"></svg>
         </a>
         <ul class="dropdown-menu ms-5" aria-labelledby="navbarDropdown">
-          <li><p class="text-center" th:text="${account.getNickname()}">닉네임</p></li>
+          <li><p class="text-center test" th:text="${account.getNickname()}">닉네임</p></li>
           <li><a class="dropdown-item text-center" th:href="@{'/profile/' + ${account.getNickname()}}">프로필</a></li>
           <li><a class="dropdown-item text-center" th:href="@{/settings/nickname}">프로필 수정</a></li>
           <li><a class="dropdown-item text-center" th:href="@{/matching-list}">매칭 요청</a></li>
