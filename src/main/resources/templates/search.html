@@ -3,7 +3,7 @@
 <head th:replace="fragments.html :: head"></head>
 <body class="bg-light">
 <div th:replace="fragments.html :: navbar"></div>
-<div class="container">
+<div class="container containerTop">
     <div class="py-5 text-center">
         <p class="lead" th:if="${productPage.getTotalElements() == 0}">
             "<strong th:text="${keyword}" id="keyword" class="context"></strong>" 에 해당하는 상품이 없습니다.
