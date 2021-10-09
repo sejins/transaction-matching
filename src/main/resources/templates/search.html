@@ -19,23 +19,23 @@
             <div class="row">
                 <div class="col-md-4" th:each="product: ${productPage.getContent()}">
                     <div class="card mb-4 shadow-sm">
-                        <img th:src="${product.getImages().get(0).getImagePath()}" class="context card-img-top" th:alt="${product.getTitle()}" >
-                        <div class="card-body">
-                            <div class=" d-flex justify-content-between">
-                                <a th:href="@{'/product/' + ${product.getId()}}" class="text-decoration-none">
+                        <a th:href="@{'/product/' + ${product.getId()}}" class="text-decoration-none">
+                            <img th:src="${product.getImages().get(0).getImagePath()}" class="context card-img-top" th:alt="${product.getTitle()}" >
+                            <div class="card-body">
+                                <div class=" d-flex justify-content-between">
                                     <h5 class="card-title context" th:text="${product.getTitle()}"></h5>
-                                </a>
-                                <span th:text="${product.getZone().getZoneInfoInKr()}"></span>
-                            </div>
+                                    <span th:text="${product.getZone().getZoneInfoInKr()}" class="text-dark"></span>
+                                </div>
 
-                            <div class="d-flex justify-content-between">
-                                <p class="card-text" th:text="${product.getDescription()}">Short description</p>
-                                <span class="d-flex align-baseline">
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text text-dark" th:text="${product.getDescription()}">Short description</p>
+                                    <span class="d-flex align-baseline">
                                     <svg th:if="${#strings.isEmpty(product.seller?.profileImage)}" th:data-jdenticon-value="${product.seller.getNickname()}" width="24+" height="24" class="rounded border bg-light align-center"></svg>
                                     <p th:text="${product.seller.getNickname() }" class="h5 text-center text-dark ps-1 mb-2"></p>
                                 </span>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,6 @@
                         <a class="page-link" th:href="@{'/search/product?keyword=' + ${keyword} + '&page=' + ${index}}"
                            th:text="${index + 1}"></a>
                     </li>
-
                     <li class="page-item" th:classappend="${!productPage.hasNext()}? disabled">
                         <a class="page-link" th:href="@{'/search/product?keyword=' + ${keyword} + '&page=' + ${productPage.getNumber() + 1}}">></a>
                     </li>
