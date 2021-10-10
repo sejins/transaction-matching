@@ -4,9 +4,11 @@ import com.jingeore.account.Account;
 import com.jingeore.account.AccountRepository;
 import com.jingeore.account.AccountService;
 import com.jingeore.account.CurrentUser;
+import com.jingeore.account.form.SignUpForm;
 import com.jingeore.chatting.ChattingMessage;
 import com.jingeore.chatting.ChattingMessageForm;
 import com.jingeore.matching.FinishedMatchingInfo;
+import com.jingeore.matching.ReviewResultForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -256,6 +258,7 @@ public class ProductController {
 
         model.addAttribute("opposite", opposite);
         model.addAttribute("product", product);
+        model.addAttribute("reviewResultForm", new ReviewResultForm());
 
         if (flag.equals("true")) { // 거래완료
            // productService.completeMatching(productId, account);
@@ -272,7 +275,10 @@ public class ProductController {
     public String writeReviewOnFinished(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Long oppositeId) {
         model.addAttribute(account);
         Account opposite = accountRepository.findById(oppositeId).orElseThrow();
+        Product product = productRepository.findById(productId).orElseThrow();
         model.addAttribute("opposite", opposite);
+        model.addAttribute("product", product);
+        model.addAttribute("reviewResultForm", new ReviewResultForm());
         return "matching/review";
     }
 
@@ -289,5 +295,20 @@ public class ProductController {
         ).collect(Collectors.toList());
         model.addAttribute("finishedList", finishedList);
         return "matching/current-matchings-finished";
+    }
+
+    @PostMapping("/review-test/{productId}")
+    public String reviewTest(@CurrentUser Account account, Model model, @ModelAttribute ReviewResultForm reviewResultForm) {
+        log.info(reviewResultForm.getPositive1());
+        log.info(reviewResultForm.getPositive2());
+        log.info(reviewResultForm.getPositive3());
+        log.info(reviewResultForm.getPositive4());
+        log.info(reviewResultForm.getPositiveEtc());
+        log.info(reviewResultForm.getNegative1());
+        log.info(reviewResultForm.getNegative2());
+        log.info(reviewResultForm.getNegative3());
+        log.info(reviewResultForm.getNegative4());
+        log.info(reviewResultForm.getNegativeEtc());
+        return "redirect:/";
     }
 }
