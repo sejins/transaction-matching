@@ -38,9 +38,13 @@ public class Account {
     private String profileImage;
 
     private LocalDateTime regDate;
+
     private Double sellingMannerScore = 5.0;
 
     private Double buyingMannerScore = 5.0;
+
+    @OneToOne
+    private ReviewScore reviewScore;
 
     private Boolean isBanned = false;
 

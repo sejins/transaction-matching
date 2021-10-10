@@ -261,24 +261,27 @@ public class ProductController {
         model.addAttribute("reviewResultForm", new ReviewResultForm());
 
         if (flag.equals("true")) { // 거래완료
-           // productService.completeMatching(productId, account);
+//           Long fmId = productService.completeMatching(productId, account);
+//           model.addAttribute("fmId", fmId);
             log.info("true!!!!!!!");
         } else { // 매칭 취소
-          //  productService.cancelMatching(productId);
+//          Long fmId = productService.cancelMatching(productId);
+//          model.addAttribute("fmId", fmId);
             log.info("false!!!!!!!");
         }
         return "matching/review";
     }
 
     // 종료된 매칭 정보에서 넘어오는 리뷰 페이지
-    @GetMapping("/review/{productId}/{oppositeId}")
-    public String writeReviewOnFinished(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Long oppositeId) {
+    @GetMapping("/review/{productId}/{oppositeId}/{fmId}")
+    public String writeReviewOnFinished(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Long oppositeId, @PathVariable Long fmId) {
         model.addAttribute(account);
         Account opposite = accountRepository.findById(oppositeId).orElseThrow();
         Product product = productRepository.findById(productId).orElseThrow();
         model.addAttribute("opposite", opposite);
         model.addAttribute("product", product);
         model.addAttribute("reviewResultForm", new ReviewResultForm());
+        model.addAttribute("fmId",fmId);
         return "matching/review";
     }
 
@@ -290,6 +293,7 @@ public class ProductController {
         List<FinishedMatchingInfo> finishedList = myAccount.getFinishedMatchings().stream().map(fm ->
             FinishedMatchingInfo.builder().product(productRepository.findById(fm.getProductId()).orElseThrow())
                     .opposite(accountRepository.findById(fm.getOppositeId()).orElseThrow()).finishedMatchingId(fm.getId())
+                    .finishedMatchingId(fm.getId())
                     .status(fm.getStatus())
                     .build()
         ).collect(Collectors.toList());
@@ -297,8 +301,8 @@ public class ProductController {
         return "matching/current-matchings-finished";
     }
 
-    @PostMapping("/review-test/{productId}")
-    public String reviewTest(@CurrentUser Account account, Model model, @ModelAttribute ReviewResultForm reviewResultForm) {
+    @PostMapping("/review/add/{oppositeId}/{fmId}")
+    public String reviewTest(@CurrentUser Account account, @PathVariable Long oppositeId, @PathVariable Long fmId, @ModelAttribute ReviewResultForm reviewResultForm) {
         log.info(reviewResultForm.getPositive1());
         log.info(reviewResultForm.getPositive2());
         log.info(reviewResultForm.getPositive3());
@@ -309,6 +313,10 @@ public class ProductController {
         log.info(reviewResultForm.getNegative3());
         log.info(reviewResultForm.getNegative4());
         log.info(reviewResultForm.getNegativeEtc());
+
+        Account opposite = accountRepository.findById(oppositeId).orElseThrow();
+        accountService.addReview(opposite, reviewResultForm);
+        accountService.finishMatching(account, fmId);
         return "redirect:/";
     }
 }

@@ -5,10 +5,12 @@ import com.jingeore.account.form.PasswordForm;
 import com.jingeore.account.form.SignUpForm;
 import com.jingeore.matching.FinishedMatching;
 import com.jingeore.matching.FinishedMatchingRepository;
+import com.jingeore.matching.ReviewResultForm;
 import com.jingeore.product.Product;
 import com.jingeore.product.ProductRepository;
 import com.jingeore.zone.Zone;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +32,7 @@ import java.util.UUID;
 @Transactional
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class AccountService implements UserDetailsService{
 
     private final AccountRepository accountRepository;
@@ -37,6 +40,8 @@ public class AccountService implements UserDetailsService{
     private final JavaMailSender javaMailSender;
     private final ProductRepository productRepository;
     private final FinishedMatchingRepository finishedMatchingRepository;
+    private final ReviewScoreRepository reviewScoreRepository;
+    private final ReviewScoreService reviewScoreService;
 
     public Account createNewAccount(SignUpForm signUpForm) {
 
@@ -54,6 +59,8 @@ public class AccountService implements UserDetailsService{
         newAccount.setEmail(signUpForm.getEmail());
         newAccount.setPassword(passwordEncoder.encode(signUpForm.getPassword())); // 비밀번호는 암호화해서 저장. -> bcrypt 해싱 알고리즘사용.
         newAccount.setEmailConfirmToken(UUID.randomUUID().toString());// 계정을 만들때 랜덤한 토큰값을 생성한다.
+        ReviewScore newReviewScore = reviewScoreRepository.save(new ReviewScore());
+        newAccount.setReviewScore(newReviewScore);
         return accountRepository.save(newAccount);
     }
 
@@ -177,7 +184,7 @@ public class AccountService implements UserDetailsService{
         buyer.getMatching().add(product);
     }
 
-    public void addFinishedMatching(Account account, Long productId, Long oppositeId) {
+    public Long addFinishedMatching(Account account, Long productId, Long oppositeId) {
         FinishedMatching myFm = new FinishedMatching();
         myFm.setProductId(productId);
         myFm.setOppositeId(oppositeId);
@@ -194,5 +201,27 @@ public class AccountService implements UserDetailsService{
 
         myAccount.getFinishedMatchings().add(myFinishedMatching);
         oppositeAccount.getFinishedMatchings().add(opFinishedMatching);
+
+        return myFinishedMatching.getId();
+    }
+
+    public void addReview(Account opposite, ReviewResultForm reviewResultForm) {
+        // TODO do anything
+        log.info("Test!!!!!!!!!!!!!!!!!!");
+        ReviewScore reviewScore = opposite.getReviewScore();
+        if (reviewScore == null) {
+            ReviewScore newReviewScore = reviewScoreRepository.save(new ReviewScore());
+            opposite.setReviewScore(newReviewScore);
+            reviewScoreService.addReview(newReviewScore, reviewResultForm);
+        } else {
+            reviewScoreService.addReview(reviewScore, reviewResultForm);
+        }
+
+    }
+
+    public void finishMatching(Account account, Long fmId) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        FinishedMatching finishedMatching = finishedMatchingRepository.findById(fmId).orElseThrow();
+        myAccount.getFinishedMatchings().remove(finishedMatching);
     }
 }

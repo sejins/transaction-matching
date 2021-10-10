@@ -18,8 +18,8 @@
         </div>
       </div>
       <div class="col-4">
-        <div class="pt-4"><span class="lead">구매 평점</span><span class="px-3" th:text="${profileAccount.getBuyingMannerScore()}"></span></div>
-        <div class="pt-4"><span class="lead">판매 평점</span><span class="px-3" th:text="${profileAccount.getSellingMannerScore()}"></span></div>
+        <div class="pt-4"><span class="lead">거래 평점 </span><span class="px-3" th:text="${profileAccount.reviewScore.calculateScore()}"></span></div>
+<!--        <div class="pt-4"><span class="lead">판매 평점</span><span class="px-3" th:text="${profileAccount.getSellingMannerScore()}"></span></div>-->
       </div>
     </div>
     </div>

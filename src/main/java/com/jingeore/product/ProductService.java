@@ -5,6 +5,7 @@ import com.jingeore.account.AccountRepository;
 import com.jingeore.account.AccountService;
 import com.jingeore.chatting.ChattingMessage;
 import com.jingeore.chatting.ChattingMessageRepository;
+import com.jingeore.matching.ReviewResultForm;
 import com.jingeore.zone.Zone;
 import com.jingeore.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,13 +66,15 @@ public class ProductService {
         accountService.confirmMatchingOffer(offeror, product);
     }
 
-    public void cancelMatching(Long productId) {
+    public Long cancelMatching(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow();
         Account buyer = product.getBuyer();
 //        Account buyer = accountRepository.findById(buyerId).orElseThrow();
-        accountService.addFinishedMatching(product.getSeller(), productId, product.getBuyer().getId());
+        Long fmId = accountService.addFinishedMatching(product.getSeller(), productId, product.getBuyer().getId());
         product.cancelMatching();
         buyer.endMatching(product);
+
+        return fmId;
     }
 
     public void requestDealing(Product product) {
@@ -82,12 +85,14 @@ public class ProductService {
         product.setStatus(ProductStatus.DEALING);
     }
 
-    public void completeMatching(Long productId, Account account) {
+    public Long completeMatching(Long productId, Account account) {
         Product product = productRepository.findById(productId).orElseThrow();
         Account buyer = accountRepository.findByNickname(product.getBuyer().getNickname());
         product.completeMatching();
-        accountService.addFinishedMatching(account, productId, buyer.getId());
+        Long fmId = accountService.addFinishedMatching(account, productId, buyer.getId());
         buyer.endMatching(product);
+
+        return fmId;
     }
 
     public void saveNewMessage(Product product, Long writerId, String message) {
