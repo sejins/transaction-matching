@@ -34,9 +34,7 @@ public class MainController {
     }
 
     @GetMapping("/search/product")
-    public String searchProduct(@CurrentUser Account account,
-                                @PageableDefault(size = 6, page = 0) Pageable pageable,
-                                String keyword, Model model) {
+    public String searchProduct(@CurrentUser Account account, @PageableDefault(size = 6, page = 0) Pageable pageable, String keyword, Model model) {
         Page<Product> productPage = productRepository.findByKeyword(keyword, pageable);
         if (account != null) {
             model.addAttribute(account);

@@ -17,7 +17,7 @@ public class ProductRepositoryExtensionImpl extends QuerydslRepositorySupport im
     public Page<Product> findByKeyword(String keyword, Pageable pageable) {
         QProduct product = QProduct.product;
         JPQLQuery<Product> query = from(product).where(product.status.eq(ProductStatus.NONE)
-        .and(product.title.containsIgnoreCase(keyword)));
+        .and(product.title.containsIgnoreCase(keyword).or(product.zone.province.containsIgnoreCase(keyword)).or(product.zone.localNameOfCity.containsIgnoreCase(keyword))));
 
         JPQLQuery<Product> pageableQuery = getQuerydsl().applyPagination(pageable, query);
         QueryResults<Product> fetchResults = pageableQuery.fetchResults();
