@@ -47,6 +47,9 @@ public class Product {
     @ManyToOne
     private Zone zone; // 상품의 판매 지역
 
+    @OneToMany
+    private Set<Account> reviewed = new HashSet<>(); // 후기 작성 여부
+
     @OneToMany(mappedBy = "product")
     private List<ChattingMessage> chattings = new ArrayList<>();
 
@@ -66,6 +69,11 @@ public class Product {
     public void cancelMatching() {
         this.status = ProductStatus.NONE;
         this.buyer = null;
+        this.chattings.forEach(chat -> {
+            chat.setProduct(null);
+            chat.setWriterId(null);
+        });
+        this.chattings.clear();
     }
 
     public boolean inProgress() {

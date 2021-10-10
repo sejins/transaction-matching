@@ -1,5 +1,6 @@
 package com.jingeore.account;
 
+import com.jingeore.mathcing.FinishedMatching;
 import com.jingeore.product.Product;
 import com.jingeore.product.ProductController;
 import com.jingeore.zone.Zone;
@@ -43,6 +44,9 @@ public class Account {
     private Double buyingMannerScore = 5.0;
 
     private Boolean isBanned = false;
+
+    @OneToMany
+    private Set<FinishedMatching> finishedMatchings;
 
     @ManyToMany
     private Set<Zone> zones = new HashSet<>(); // 지역 도메인과 다대다 관계

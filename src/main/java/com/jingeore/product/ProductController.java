@@ -16,10 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -179,7 +177,7 @@ public class ProductController {
 
     @PostMapping("/cancel-matching/{productId}/{buyerId}")
     public String cancelMatching(@CurrentUser Account account, @PathVariable Long productId, @PathVariable Long buyerId) {
-        productService.cancelMatching(productId, buyerId);
+        productService.cancelMatching(productId);
         return "redirect:/current-matching/sell";
     }
 
@@ -205,7 +203,7 @@ public class ProductController {
 
     @GetMapping("/complete-matching/{productId}")
     public String completeMatching(@CurrentUser Account account, @PathVariable Long productId, RedirectAttributes redirectAttributes) {
-        productService.completeMatching(productId);
+        productService.completeMatching(productId, account);
         redirectAttributes.addFlashAttribute("reviewMessage", "여기");
         return "redirect:/current-matching/sell";
     }
@@ -238,5 +236,17 @@ public class ProductController {
         model.addAttribute("product", product);
 
         return "matching/chatting :: #list";
+    }
+
+    @GetMapping("/review/{productId}/{flag}")
+    public String writeReview(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Boolean flag) {
+        model.addAttribute(account);
+        model.addAttribute("flag", flag);
+        if (flag) { // 거래완료
+            productService.completeMatching(productId, account);
+        } else { // 매칭 취소
+            productService.cancelMatching(productId);
+        }
+        return "matching/review";
     }
 }

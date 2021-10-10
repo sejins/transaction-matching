@@ -65,9 +65,11 @@ public class ProductService {
         accountService.confirmMatchingOffer(offeror, product);
     }
 
-    public void cancelMatching(Long productId, Long buyerId) {
+    public void cancelMatching(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow();
-        Account buyer = accountRepository.findById(buyerId).orElseThrow();
+        Account buyer = product.getBuyer();
+//        Account buyer = accountRepository.findById(buyerId).orElseThrow();
+        accountService.addFinishedMatching(product.getSeller(), productId, product.getBuyer().getId());
         product.cancelMatching();
         buyer.endMatching(product);
     }
@@ -80,10 +82,11 @@ public class ProductService {
         product.setStatus(ProductStatus.DEALING);
     }
 
-    public void completeMatching(Long productId) {
+    public void completeMatching(Long productId, Account account) {
         Product product = productRepository.findById(productId).orElseThrow();
         Account buyer = accountRepository.findByNickname(product.getBuyer().getNickname());
         product.completeMatching();
+        accountService.addFinishedMatching(account, productId, buyer.getId());
         buyer.endMatching(product);
     }
 

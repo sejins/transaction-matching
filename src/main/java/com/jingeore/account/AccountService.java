@@ -3,6 +3,8 @@ package com.jingeore.account;
 import com.jingeore.account.form.NicknameForm;
 import com.jingeore.account.form.PasswordForm;
 import com.jingeore.account.form.SignUpForm;
+import com.jingeore.mathcing.FinishedMatching;
+import com.jingeore.mathcing.FinishedMatchingRepository;
 import com.jingeore.product.Product;
 import com.jingeore.product.ProductRepository;
 import com.jingeore.zone.Zone;
@@ -34,6 +36,7 @@ public class AccountService implements UserDetailsService{
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
     private final ProductRepository productRepository;
+    private final FinishedMatchingRepository finishedMatchingRepository;
 
     public Account createNewAccount(SignUpForm signUpForm) {
 
@@ -172,5 +175,24 @@ public class AccountService implements UserDetailsService{
 
     public void confirmMatchingOffer(Account buyer, Product product) {
         buyer.getMatching().add(product);
+    }
+
+    public void addFinishedMatching(Account account, Long productId, Long oppositeId) {
+        FinishedMatching myFm = new FinishedMatching();
+        myFm.setProductId(productId);
+        myFm.setOppositeId(oppositeId);
+
+        FinishedMatching opFm = new FinishedMatching();
+        opFm.setProductId(productId);
+        opFm.setOppositeId(account.getId());
+
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        Account oppositeAccount = accountRepository.findById(oppositeId).orElseThrow();
+
+        FinishedMatching myFinishedMatching = finishedMatchingRepository.save(myFm);
+        FinishedMatching opFinishedMatching = finishedMatchingRepository.save(opFm);
+
+        myAccount.getFinishedMatchings().add(myFinishedMatching);
+        oppositeAccount.getFinishedMatchings().add(opFinishedMatching);
     }
 }

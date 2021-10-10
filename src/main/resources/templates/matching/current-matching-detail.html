@@ -86,7 +86,7 @@
       </div>
 
       <div th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING && myAccount.isMyProduct(product)}" class="d-flex justify-content-around">
-        <a th:href="@{'/complete-matching/' + ${product.getId()}}" class="text-decoration-none">
+        <a th:href="@{'/review/' + ${product.getId()} + '/true'}" class="text-decoration-none">
           <button type="submit" class="btn info text-white">거래 완료</button>
         </a>
         <div th:replace="fragments.html :: cancel-matching"></div>
@@ -129,7 +129,7 @@
         </div>
         <div class="modal-footer">
           <a href="#" data-bs-dismiss="modal" class="text-decoration-none text-dark">취소</a>
-          <form th:action="@{'/cancel-matching/' + ${product.getId()} + '/' + ${product.buyer.getId()}}" method="post">
+          <form th:action="@{'/review/' + ${product.getId()} + '/false'}" method="get">
             <button type="submit" class="btn btn-link text-decoration-none text-dark">확인</button>
           </form>
         </div>
