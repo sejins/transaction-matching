@@ -268,7 +268,7 @@ public class ProductController {
     public String writeReviewOnFinished(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Long oppositeId) {
         model.addAttribute(account);
         Account opposite = accountRepository.findById(oppositeId).orElseThrow();
-        model.addAttribute(opposite);
+        model.addAttribute("opposite", opposite);
         return "matching/review";
     }
 
