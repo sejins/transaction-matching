@@ -6,10 +6,9 @@ import com.jingeore.account.AccountService;
 import com.jingeore.account.CurrentUser;
 import com.jingeore.chatting.ChattingMessage;
 import com.jingeore.chatting.ChattingMessageForm;
-import com.jingeore.mathcing.FinishedMatchingInfo;
+import com.jingeore.matching.FinishedMatchingInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -241,6 +240,7 @@ public class ProductController {
         return "matching/chatting :: #list";
     }
 
+    // 매칭이 종료되고 바로 넘어가는 리뷰 페이지
     @PostMapping("/review/{productId}")
     public String writeReview(@CurrentUser Account account, Model model, @PathVariable Long productId, String flag) {
         model.addAttribute(account);
@@ -253,7 +253,10 @@ public class ProductController {
         } else {
             opposite = product.getBuyer();
         }
+
         model.addAttribute("opposite", opposite);
+        model.addAttribute("product", product);
+
         if (flag.equals("true")) { // 거래완료
            // productService.completeMatching(productId, account);
             log.info("true!!!!!!!");
@@ -264,6 +267,7 @@ public class ProductController {
         return "matching/review";
     }
 
+    // 종료된 매칭 정보에서 넘어오는 리뷰 페이지
     @GetMapping("/review/{productId}/{oppositeId}")
     public String writeReviewOnFinished(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Long oppositeId) {
         model.addAttribute(account);
@@ -280,6 +284,7 @@ public class ProductController {
         List<FinishedMatchingInfo> finishedList = myAccount.getFinishedMatchings().stream().map(fm ->
             FinishedMatchingInfo.builder().product(productRepository.findById(fm.getProductId()).orElseThrow())
                     .opposite(accountRepository.findById(fm.getOppositeId()).orElseThrow()).finishedMatchingId(fm.getId())
+                    .status(fm.getStatus())
                     .build()
         ).collect(Collectors.toList());
         model.addAttribute("finishedList", finishedList);
