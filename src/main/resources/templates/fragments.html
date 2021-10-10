@@ -325,6 +325,7 @@
 <div th:fragment="current-matching-menu (currentMenu)" class="list-group">
   <a class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'buy'}? myActive" href="#" th:href="@{/current-matching/buy}">구매</a>
   <a class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'sell'}? myActive" href="#" th:href="@{/current-matching/sell}">판매</a>
+  <a class="list-group-item text-decoration-none" th:classappend="${currentMenu == 'finished'}? myActive" href="#" th:href="@{/current-matching/finished}">완료</a>
 </div>
 
 </html>

@@ -17,7 +17,7 @@
         <div class="col-5 mx-5">
             <div class="row">
                 <h2 th:if="${myAccount.matching.size() == 0}" class="text-center"> 현재 진행중인 매칭이 없습니다.</h2>
-                <ul class="list-group list-group-flush" th:each="buyingProduct: ${myAccount.getMatching()}">
+                <ul class="list-group list-group-flush mb-2" th:each="buyingProduct: ${myAccount.getMatching()}">
                     <li th:if="${buyingProduct.inProgress()}" class=" list-group-item d-flex flex-column justify-content-center text-decoration-none">
                         <p th:if="${buyingProduct.status == T(com.jingeore.product.ProductStatus).IN_REQUEST}" class="lead text-center text-white info">
                             거래요청 되었습니다. 판매자의 수락을 기다려주세요.
@@ -39,7 +39,6 @@
                             </div>
                         </div>
                     </li>
-                    <br/>
                 </ul>
             </div>
         </div>
@@ -48,5 +47,4 @@
     </div>
 </div>
 </body>
-</style>
 </html>

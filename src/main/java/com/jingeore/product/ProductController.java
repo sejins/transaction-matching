@@ -6,8 +6,10 @@ import com.jingeore.account.AccountService;
 import com.jingeore.account.CurrentUser;
 import com.jingeore.chatting.ChattingMessage;
 import com.jingeore.chatting.ChattingMessageForm;
+import com.jingeore.mathcing.FinishedMatchingInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -175,11 +178,11 @@ public class ProductController {
         return "matching/current-matching-detail";
     }
 
-    @PostMapping("/cancel-matching/{productId}/{buyerId}")
-    public String cancelMatching(@CurrentUser Account account, @PathVariable Long productId, @PathVariable Long buyerId) {
-        productService.cancelMatching(productId);
-        return "redirect:/current-matching/sell";
-    }
+//    @PostMapping("/cancel-matching/{productId}/{buyerId}")
+//    public String cancelMatching(@CurrentUser Account account, @PathVariable Long productId, @PathVariable Long buyerId) {
+//        productService.cancelMatching(productId);
+//        return "redirect:/current-matching/sell";
+//    }
 
     @PostMapping("/request-dealing/{productId}")
     public String requestDealing(@CurrentUser Account account, @PathVariable Long productId, RedirectAttributes redirectAttributes) {
@@ -201,12 +204,12 @@ public class ProductController {
         return "redirect:/current-matching/detail/" + productId;
     }
 
-    @GetMapping("/complete-matching/{productId}")
-    public String completeMatching(@CurrentUser Account account, @PathVariable Long productId, RedirectAttributes redirectAttributes) {
-        productService.completeMatching(productId, account);
-        redirectAttributes.addFlashAttribute("reviewMessage", "여기");
-        return "redirect:/current-matching/sell";
-    }
+//    @GetMapping("/complete-matching/{productId}")
+//    public String completeMatching(@CurrentUser Account account, @PathVariable Long productId, RedirectAttributes redirectAttributes) {
+//        productService.completeMatching(productId, account);
+//        redirectAttributes.addFlashAttribute("reviewMessage", "여기");
+//        return "redirect:/current-matching/sell";
+//    }
 
     @GetMapping("/chatting/{productId}")
     public String chatting(@CurrentUser Account account, @PathVariable Long productId, Model model) {
@@ -238,15 +241,48 @@ public class ProductController {
         return "matching/chatting :: #list";
     }
 
-    @GetMapping("/review/{productId}/{flag}")
-    public String writeReview(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Boolean flag) {
+    @PostMapping("/review/{productId}")
+    public String writeReview(@CurrentUser Account account, Model model, @PathVariable Long productId, String flag) {
         model.addAttribute(account);
         model.addAttribute("flag", flag);
-        if (flag) { // 거래완료
-            productService.completeMatching(productId, account);
+
+        Product product = productRepository.findById(productId).orElseThrow();
+        Account opposite;
+        if (product.getBuyer().getId() == account.getId()) {
+            opposite = product.getSeller();
+        } else {
+            opposite = product.getBuyer();
+        }
+        model.addAttribute("opposite", opposite);
+        if (flag.equals("true")) { // 거래완료
+           // productService.completeMatching(productId, account);
+            log.info("true!!!!!!!");
         } else { // 매칭 취소
-            productService.cancelMatching(productId);
+          //  productService.cancelMatching(productId);
+            log.info("false!!!!!!!");
         }
         return "matching/review";
+    }
+
+    @GetMapping("/review/{productId}/{oppositeId}")
+    public String writeReviewOnFinished(@CurrentUser Account account, Model model, @PathVariable Long productId, @PathVariable Long oppositeId) {
+        model.addAttribute(account);
+        Account opposite = accountRepository.findById(oppositeId).orElseThrow();
+        model.addAttribute(opposite);
+        return "matching/review";
+    }
+
+    @GetMapping("/current-matching/finished")
+    public String currentMatchingFinished(@CurrentUser Account account, Model model) {
+        Account myAccount = accountRepository.findByNickname(account.getNickname());
+        model.addAttribute(account);
+        model.addAttribute("myAccount", myAccount);
+        List<FinishedMatchingInfo> finishedList = myAccount.getFinishedMatchings().stream().map(fm ->
+            FinishedMatchingInfo.builder().product(productRepository.findById(fm.getProductId()).orElseThrow())
+                    .opposite(accountRepository.findById(fm.getOppositeId()).orElseThrow()).finishedMatchingId(fm.getId())
+                    .build()
+        ).collect(Collectors.toList());
+        model.addAttribute("finishedList", finishedList);
+        return "matching/current-matchings-finished";
     }
 }
