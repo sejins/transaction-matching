@@ -16,11 +16,11 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-sm-10">
-            <div class="row">
-                <div class="col-md-4" th:each="product: ${productPage.getContent()}">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-4 myDiv" th:each="product: ${productPage.getContent()}">
                     <div class="card mb-4 shadow-sm">
                         <a th:href="@{'/product/' + ${product.getId()}}" class="text-decoration-none">
-                            <img th:src="${product.getImages().get(0).getImagePath()}" class="context card-img-top" th:alt="${product.getTitle()}" >
+                            <img th:src="${product.getImages().get(0).getImagePath()}" class="context card-img-top myImg" th:alt="${product.getTitle()}" >
                             <div class="card-body">
                                 <div class=" d-flex justify-content-between">
                                     <h5 class="card-title context" th:text="${product.getTitle()}"></h5>

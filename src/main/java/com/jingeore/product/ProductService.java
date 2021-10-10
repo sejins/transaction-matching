@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -108,5 +109,13 @@ public class ProductService {
             }
         });
         return chattingList;
+    }
+
+    public List<String> getImagePathListForInfo(Product product) {
+        // 뷰에서 경로 인식이 잘 안되는 문제 때문에!
+        List<String> images = product.getImages().stream().map(ProductImage::getImagePath)
+                .map(path -> path.replace("/images/", ""))
+                .collect(Collectors.toList());
+        return images;
     }
 }

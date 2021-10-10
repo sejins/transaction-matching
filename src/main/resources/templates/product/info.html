@@ -7,14 +7,10 @@
 
         <div class="container containerTop">
             <div th:replace="fragments.html :: redirect-message"></div>
-            <div class="row py-5 justify-content-center">
+            <div class="row pt-5 justify-content-center">
                 <div class="col-6">
                     <div th:replace="fragments.html :: image-slide (${images.size()})"></div>
-                </div>
-            </div>
-            <div class="row mt-4 justify-content-center">
-                <div class="col-6">
-                    <div class="mt-3 d-flex justify-content-between">
+                    <div class="d-flex justify-content-between pt-3">
                         <div class="justify-content-center">
                             <a th:href="@{'/profile/' + ${product.seller.getNickname()}}" class="text-decoration-none d-flex text-decoration-none">
                                 <svg class="img-fluid rounded img-thumbnail me-3"
@@ -26,6 +22,10 @@
                             <span th:text="${product.getZone().getZoneInfoInKr()}"></span>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6">
                     <hr class="mb-4">
                     <div class="justify-content-center">
                         <h2 class="text-center" th:text="${product.getTitle()}">Title</h2>
@@ -43,7 +43,7 @@
                     <hr class="mt-4 mb-4">
                     <p class="text-center"> <span th:text="${product.seller.nickname}"></span>님의 판매 상품</p>
                     <div class="row justify-content-center">
-                        <div class="col-6 myDiv" th:each="anotherProduct: ${product.seller.sellingProducts}"
+                        <div class="col-6" th:each="anotherProduct: ${product.seller.sellingProducts}"
                              th:if="${anotherProduct.id != product.id && anotherProduct.status == T(com.jingeore.product.ProductStatus).NONE}">
                             <div class="card">
                                 <a th:href="@{'/product/' + ${anotherProduct.id}}" class="text-decoration-none">

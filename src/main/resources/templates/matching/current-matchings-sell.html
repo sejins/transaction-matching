@@ -23,7 +23,7 @@
                                     거래요청을 수락하여 거래를 진행하세요.
                                 </p>
                                 <a th:href="@{'/current-matching/detail/' + ${sellingProduct.getId()}}" href="#" class="text-decoration-none pt-3" >
-                                    <img class="rounded mx-auto d-block" th:src="${sellingProduct.getImages().get(0).getImagePath()}" alt="" width="450" height="450">
+                                    <img class="rounded mx-auto d-block myImgMatching" th:src="${sellingProduct.getImages().get(0).getImagePath()}" alt="">
                                 </a>
                                 <h3 th:text="${sellingProduct.getTitle()}" class="text-center mt-4"></h3>
                                 <div class="row justify-content-center ">

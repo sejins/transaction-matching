@@ -74,12 +74,12 @@ public class ProductController {
         Account myAccount = accountRepository.findByNickname(account.getNickname());
         model.addAttribute(account);
         model.addAttribute(product);
-        model.addAttribute("images",product.getImages());
         model.addAttribute("myAccount", myAccount);
 
-        List<String> images = product.getImages().stream().map(ProductImage::getImagePath).collect(Collectors.toList());
+        // image path list for product info page
+        List<String> images = productService.getImagePathListForInfo(product);
         model.addAttribute("images",images);
-        model.addAttribute("image",images.get(0));
+        log.info(images.toString());
         return "product/info";
     }
 

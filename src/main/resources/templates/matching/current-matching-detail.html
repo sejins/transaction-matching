@@ -16,7 +16,7 @@
         <span th:if="${product.status == T(com.jingeore.product.ProductStatus).DEALING}" class="badge angpengColor text-white fs-3 text-center">거래중</span>
         <span th:if="${product.status == T(com.jingeore.product.ProductStatus).COMPLETE}" class="badge angpengColor text-white fs-3 text-center">거래완료</span>
       </div>
-      <img class="rounded mx-auto d-block mt-4" th:src="${product.getImages().get(0).getImagePath()}" alt="" width="550" height="550">
+      <img class="rounded mx-auto d-block mt-4 myImgMatching" th:src="${product.getImages().get(0).getImagePath()}" alt="">
       <h3 th:text="${product.getPriceByWon()}" class="text-center mt-4"></h3>
       <div class="d-flex justify-content-center">
         <a th:if="${myAccount.isMyProduct(product)}" th:href="@{'/profile/' + ${product.buyer.getNickname()}}" class="d-flex justify-content-center mt-3 text-decoration-none">

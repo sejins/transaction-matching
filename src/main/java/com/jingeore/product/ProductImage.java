@@ -20,4 +20,5 @@ public class ProductImage {
     private Long id;
 
     private String imagePath;
+
 }
