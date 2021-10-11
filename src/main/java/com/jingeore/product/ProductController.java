@@ -50,6 +50,7 @@ public class ProductController {
             model.addAttribute(account);
             return "product/form";
         }
+        log.info(productForm.getDescription());
         Product newProduct = productService.createNewProduct(account, productForm);
         return "redirect:/product/addImages/" + newProduct.getId();
     }
@@ -76,6 +77,8 @@ public class ProductController {
         Account myAccount = accountRepository.findByNickname(account.getNickname());
         model.addAttribute(account);
         model.addAttribute(product);
+        log.info("테스트임");
+        log.info(product.getDescription());
         model.addAttribute("myAccount", myAccount);
 
         // image path list for product info page

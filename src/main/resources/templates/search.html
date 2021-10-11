@@ -21,17 +21,19 @@
                     <div class="card mb-4 shadow-sm">
                         <a th:href="@{'/product/' + ${product.getId()}}" class="text-decoration-none">
                             <img th:src="${product.getImages().get(0).getImagePath()}" class="context card-img-top myImg" th:alt="${product.getTitle()}" >
-                            <div class="card-body">
+                            <div class="card-body productBody">
                                 <div class=" d-flex justify-content-between">
                                     <h5 class="card-title context" th:text="${product.getTitle()}"></h5>
                                     <span th:text="${product.getZone().getZoneInfoInKr()}" class="text-dark"></span>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <p class="card-text text-dark" th:text="${product.getDescription()}">Short description</p>
+                                    <div class="searchDescription">
+                                        <p class="card-text text-dark ellipsis" th:text="${product.getDescription()}">Short description</p>
+                                    </div>
                                     <span class="d-flex align-baseline">
                                         <svg th:if="${#strings.isEmpty(product.seller?.profileImage)}" th:data-jdenticon-value="${product.seller.getNickname()}" width="24" height="24" class="rounded border bg-light align-center"></svg>
-                                        <p th:text="${product.seller.getNickname() }" class="h5 text-center text-dark ps-1 mb-2"></p>
+                                        <p th:text="${product.seller.getNickname() }" class=" text-center text-dark ps-1 mb-2"></p>
                                     </span>
                                 </div>
                             </div>
