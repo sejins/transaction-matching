@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <div th:replace="fragments.html :: navbar"></div>
+    <div class="container containerTop">
+        <div th:replace="fragments.html :: review-message"></div>
+        <div class="py-5 text-center">
+            <h2 class="text-center">종료된 매칭의 후기를 남겨주세요</h2>
+        </div>
+
+        <div class="row mt-5 justify-content-center">
+            <div class="col-2">
+                <div th:replace="fragments.html :: current-matching-menu (currentMenu='finished')"></div>
+            </div>
+
+            <div class="col-5 mx-5">
+                <div class="row">
+                    <h2 th:if="${myAccount.sellingProducts.size() == 0}" class="text-center">후기를 작성하지 않은 매칭이 없습니다.</h2>
+                    <ul class="list-group list-group-flush" th:each="finishedMatching: ${finishedList}" th:if="${finishedMatching.status == T(com.jingeore.matching.EndStatus).CANCEL}">
+                        <a th:href="@{'/review/' + ${finishedMatching.product.id} + '/' + ${finishedMatching.opposite.id} + '/' + ${finishedMatching.finishedMatchingId}}">
+                            <p th:text="${finishedMatching.product.title}"></p>
+                            <p th:text="${finishedMatching.opposite.nickname}"></p>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-2 mt-5">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: navbar"></div>
+<div class="container containerTop">
+
+    <div class="row d-flex justify-content-center pt-5">
+        <h3 class="text-center mb-5"><span th:text="${opposite.nickname}"></span>님과의 매칭은 어뗘셨나요?</h3>
+        <div class="col-5 bg-white">
+            <div id="reviewSection" class="mt-5">
+                <form th:action="@{'/review/add/' + ${opposite.id} + '/' + ${fmId}}" th:object="${reviewResultForm}" method="post">
+                    <div id="positive">
+                        <h5 class="pb-3 text-center"><span th:text="${opposite.nickname}"></span>님과 거래하면서 좋았던 점을 말해주세요! 👍</h5>
+                        <hr>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2" type="checkbox" value="1" id="positive1" th:field="*{positive1}">
+                            <label class="form-check-label fs-5" for="positive1">
+                                친절하고 매너가 좋아요
+                            </label>
+                        </div>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2 " type="checkbox" value="1" id="positive2" th:field="*{positive2}">
+                            <label class="form-check-label fs-5" for="positive2">
+                                상품의 상태가 설명과 동일해요
+                            </label>
+                        </div>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2" type="checkbox" value="1" id="positive3" th:field="*{positive3}">
+                            <label class="form-check-label fs-5" for="positive3">
+                                시간 약속을 잘 지켜요
+                            </label>
+                        </div>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2" type="checkbox" value="1" id="positive4" th:field="*{positive4}">
+                            <label class="form-check-label fs-5" for="positive4">
+                                좋은 상품을 착한 가격에 팔아요
+                            </label>
+                        </div>
+                        <div class="form-group mt-4 reviewSection">
+                            <label for="positiveEtc" class="mb-1">감사의 말씀을 전해요</label>
+                            <input type="text" class="form-control reviewInput" id="positiveEtc" th:field="*{positiveEtc}">
+                        </div>
+                    </div>
+                    <div id="negative">
+                        <h5 class="pb-3 text-center"><span th:text="${opposite.nickname}"></span>님과 거래하면서 아쉬웠던 점을 말해주세요! 👎</h5>
+                        <hr>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2" type="checkbox" value="1" id="negative1" th:field="*{negative1}">
+                            <label class="form-check-label fs-5" for="negative1">
+                                불친절해요
+                            </label>
+                        </div>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2 " type="checkbox" value="1" id="negative2" th:field="*{negative2}">
+                            <label class="form-check-label fs-5" for="negative2">
+                                상품의 상태가 설명과 달라요
+                            </label>
+                        </div>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2" type="checkbox" value="1" id="negative3" th:field="*{negative3}">
+                            <label class="form-check-label fs-5" for="negative3">
+                                시간 약속을 지키지 않아요
+                            </label>
+                        </div>
+                        <div class="form-group form-check mt-4 reviewSection">
+                            <input class="form-check-input mt-2" type="checkbox" value="1" id="negative4" th:field="*{negative4}">
+                            <label class="form-check-label fs-5" for="negative4">
+                                거래 당일날 연락이 안돼요
+                            </label>
+                        </div>
+                        <div class="form-group mt-4 reviewSection">
+                            <label for="negativeEtc" class="mb-1">이런 부분은 개선해주세요!</label>
+                            <input type="text" class="form-control reviewInput" id="negativeEtc" th:field="*{negativeEtc}">
+                        </div>
+                    </div>
+                    <div class="form-group d-flex justify-content-around mt-5 mb-5">
+                        <a th:href="@{'/review/skip/' + ${fmId}}">
+                            <button type="button" class="btn negative text-dark">건너뛰기</button>
+                        </a>
+                        <button type="submit" class="btn info text-white">제출하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
