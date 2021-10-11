@@ -319,4 +319,10 @@ public class ProductController {
         accountService.finishMatching(account, fmId);
         return "redirect:/";
     }
+
+    @GetMapping("/review/skip/{fmId}")
+    public String skipReview(@CurrentUser Account account, @PathVariable Long fmId) {
+        accountService.finishMatching(account, fmId);
+        return "redirect:/";
+    }
 }

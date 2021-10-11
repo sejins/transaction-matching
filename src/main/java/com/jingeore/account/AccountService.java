@@ -3,6 +3,7 @@ package com.jingeore.account;
 import com.jingeore.account.form.NicknameForm;
 import com.jingeore.account.form.PasswordForm;
 import com.jingeore.account.form.SignUpForm;
+import com.jingeore.matching.EndStatus;
 import com.jingeore.matching.FinishedMatching;
 import com.jingeore.matching.FinishedMatchingRepository;
 import com.jingeore.matching.ReviewResultForm;
@@ -222,6 +223,8 @@ public class AccountService implements UserDetailsService{
     public void finishMatching(Account account, Long fmId) {
         Account myAccount = accountRepository.findByNickname(account.getNickname());
         FinishedMatching finishedMatching = finishedMatchingRepository.findById(fmId).orElseThrow();
-        myAccount.getFinishedMatchings().remove(finishedMatching);
+//        myAccount.getFinishedMatchings().remove(finishedMatching);
+        // 진행한 매칭 정보를 삭제하지는 말자
+        finishedMatching.setStatus(EndStatus.DONE);
     }
 }
